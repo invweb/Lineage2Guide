@@ -6,6 +6,7 @@ A mobile companion guide app for Lineage 2 (Interlude chronicle) with offline ca
 
 <p align="center">
   <img src="screenshots/splash0.jpg" width="200" alt="Splash Screen Logo"/>
+
   
   <img src="screenshots/items.png" width="200" alt="Items Screen"/>
   <img src="screenshots/quests.png" width="200" alt="Quests Screen"/>
