@@ -5,12 +5,13 @@ A mobile companion guide app for Lineage 2 (Interlude chronicle) with offline ca
 ## 📱 Screenshots
 
 <p align="center">
+  <img src="screenshots/splash0.jpg" width="200" alt="Splash Screen Logo"/>
+  
   <img src="screenshots/items.png" width="200" alt="Items Screen"/>
   <img src="screenshots/quests.png" width="200" alt="Quests Screen"/>
   <img src="screenshots/skills.png" width="200" alt="Skills Screen"/>
   <img src="screenshots/classes.png" width="200" alt="Classes Screen"/>
   <img src="screenshots/npcs.png" width="200" alt="NPCs Screen"/>
-  <img src="screenshots/splash0.jpg" width="200" alt="Splash Screen Logo"/>
 </p>
 
 ## 📱 Features
