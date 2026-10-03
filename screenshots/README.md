@@ -7,3 +7,6 @@
 - `skills.png` — экран Skills (навыки)
 - `classes.png` — экран Classes (классы)
 - `npcs.png` — экран NPCs
+- `splash0.jpg` — splash screen с логотипом (щит и меч)
+- `splash1.jpg` — welcome screen с заголовком "Lineage 2 Guide"
+- `splash2.jpg` — welcome screen с заголовком "Lineage 2 Guide"
