@@ -16,12 +16,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
 import com.zx_tole.lineage2_guide.domain.model.*
-import com.zx_tole.lineage2_guide.ui.common.components.FilterBottomSheet
 import com.zx_tole.lineage2_guide.ui.common.components.RarityBadge
 import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 import com.zx_tole.lineage2_guide.ui.common.components.getRarityColor
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
@@ -38,36 +36,29 @@ fun ItemsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    when (val state = uiState) {
-        is ItemsUiState.Success -> {
-            ItemsSuccessScreen(
-                state = state,
-                isRefreshing = state.isRefreshing,
-                onSearchQueryChanged = viewModel::onSearchQueryChanged,
-                onClassSelected = viewModel::onClassSelected,
-                onLevelRangeChanged = viewModel::onLevelRangeChanged,
-                onTypeSelected = viewModel::onTypeSelected,
-                onRaritySelected = viewModel::onRaritySelected,
-                onLocationSelected = viewModel::onLocationSelected,
-                onSortChanged = viewModel::onSortChanged,
-                onLoadMore = viewModel::loadMore,
-                onRefresh = viewModel::refresh,
-                onClearFilters = viewModel::clearFilters,
-                onItemClicked = onNavigateToDetail,
-                onClassClicked = onNavigateToClassDetail
-            )
-        }
-        is ItemsUiState.Loading -> {
+    when {
+        uiState.isLoading -> {
             LoadingScreen(
                 message = "Loading items...",
                 modifier = Modifier.fillMaxSize()
             )
         }
-        is ItemsUiState.Error -> {
+        uiState.error != null -> {
             ErrorScreen(
-                message = state.message ?: "Unknown error",
+                message = uiState.error!!,
                 onRetry = viewModel::refresh,
                 modifier = Modifier.fillMaxSize()
+            )
+        }
+        else -> {
+            ItemsSuccessScreen(
+                items = uiState.items,
+                isRefreshing = uiState.isRefreshing,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged,
+                onRefresh = viewModel::refresh,
+                onItemClicked = onNavigateToDetail,
+                onClassClicked = onNavigateToClassDetail
             )
         }
     }
@@ -76,23 +67,14 @@ fun ItemsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ItemsSuccessScreen(
-    state: ItemsUiState.Success,
+    items: List<Item>,
     isRefreshing: Boolean,
+    searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
-    onClassSelected: (String?) -> Unit,
-    onLevelRangeChanged: (IntRange?) -> Unit,
-    onTypeSelected: (String?) -> Unit,
-    onRaritySelected: (String?) -> Unit,
-    onLocationSelected: (String?) -> Unit,
-    onSortChanged: (SortOption) -> Unit,
-    onLoadMore: () -> Unit,
     onRefresh: () -> Unit,
-    onClearFilters: () -> Unit,
     onItemClicked: (Long) -> Unit,
     onClassClicked: (String) -> Unit
 ) {
-    var showFilterSheet by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -105,13 +87,6 @@ private fun ItemsSuccessScreen(
                 },
                 actions = {
                     SyncIndicator(isSyncing = isRefreshing)
-                    IconButton(onClick = { showFilterSheet = true }) {
-                        Icon(
-                            Icons.Default.FilterList,
-                            contentDescription = "Filters",
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    }
                     IconButton(onClick = onRefresh) {
                         Icon(
                             Icons.Default.Refresh,
@@ -125,7 +100,7 @@ private fun ItemsSuccessScreen(
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
             SearchBar(
-                query = state.filterState.searchQuery,
+                query = searchQuery,
                 onQueryChanged = onSearchQueryChanged,
                 onClear = { onSearchQueryChanged("") }
             )
@@ -139,7 +114,7 @@ private fun ItemsSuccessScreen(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(state.items, key = { it.id }) { item ->
+                    items(items, key = { it.id }) { item ->
                         ItemCard(
                             item = item,
                             onClick = { onItemClicked(item.id) },
@@ -147,73 +122,17 @@ private fun ItemsSuccessScreen(
                         )
                     }
 
-                    if (state.items.isEmpty()) {
+                    if (items.isEmpty()) {
                         item {
                             EmptyScreen(
-                                message = if (state.filterState.searchQuery.isNotBlank() ||
-                                    state.filterState.selectedTypes.isNotEmpty() ||
-                                    state.filterState.selectedRarities.isNotEmpty()) {
-                                    "No items match your filters"
-                                } else {
-                                    "No items found"
-                                },
-                                icon = Icons.Default.FilterList
-                            )
-                        }
-                    }
-
-                    if (state.isLoadingMore) {
-                        item {
-                            CircularProgressIndicator(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                strokeWidth = 3.dp
-                            )
-                        }
-                    }
-
-                    if (state.hasMore) {
-                        item {
-                            Button(
-                                onClick = onLoadMore,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.primary
-                                )
-                            ) {
-                                Text("Load More")
-                            }
-                        }
-                    }
-
-                    if (state.totalItems > 0 && state.items.isNotEmpty()) {
-                        item {
-                            Text(
-                                text = "Showing ${state.items.size} of ${state.totalItems} items",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp),
-                                textAlign = TextAlign.Center
+                                message = if (searchQuery.isNotBlank()) "No items match your search" else "No items found",
+                                icon = Icons.Default.Inventory2
                             )
                         }
                     }
                 }
             }
         }
-    }
-
-    if (showFilterSheet) {
-        FilterBottomSheet(
-            filterState = state.filterState,
-            onTypeSelected = onTypeSelected,
-            onRaritySelected = onRaritySelected,
-            onDismiss = { showFilterSheet = false }
-        )
     }
 }
 

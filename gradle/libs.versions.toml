@@ -19,6 +19,8 @@ workmanager = "2.10.0"
 coroutines = "1.10.2"
 timber = "5.0.0"
 ksp = "2.3.6"
+constraintlayout = "2.2.1"
+coreSplashscreen = "1.0.1"
 logback = "1.5.18"
 ktor = "3.2.3"
 ktor-server = "3.2.3"
@@ -77,6 +79,12 @@ coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+# ConstraintLayout
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+# Splash Screen
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
 # Ktor Server (for mock API)
 ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor-server" }

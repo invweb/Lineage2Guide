@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Lineage2Guide.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0F0C29</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.Lineage2Guide</item>
+    </style>
+</resources>

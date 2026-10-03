@@ -37,6 +37,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true
     }
 
     defaultConfig {
@@ -96,6 +97,12 @@ dependencies {
     // Coroutines
     implementation(libs.coroutines.android)
 
+    // ConstraintLayout
+    implementation(libs.androidx.constraintlayout)
+
     // Logging
     implementation(libs.timber)
+
+    // Splash Screen
+    implementation(libs.androidx.core.splashscreen)
 }

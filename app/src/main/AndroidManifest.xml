@@ -15,14 +15,22 @@
         android:theme="@style/Theme.Lineage2Guide"
         android:usesCleartextTraffic="true"
         tools:targetApi="37">
+        
+        <!-- Splash Screen Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Lineage2Guide">
+            android:theme="@style/Theme.Lineage2Guide.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Lineage2Guide" />
     </application>
 </manifest>

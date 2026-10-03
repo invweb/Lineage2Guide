@@ -111,7 +111,7 @@ fun useCaseModule(): Module = module {
 
 fun viewModelModule(): Module = module {
     viewModel { ItemDetailViewModel(get(), get()) }
-    viewModel { ItemsViewModel(get(), get()) }
+    viewModel { ItemsViewModel(get()) }
     viewModel { QuestsViewModel(get()) }
     viewModel { QuestDetailViewModel(get()) }
     viewModel { SkillsViewModel(get()) }
