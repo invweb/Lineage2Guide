@@ -23,6 +23,7 @@ import com.zx_tole.lineage2_guide.ui.common.components.getRarityColor
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
@@ -49,6 +50,7 @@ fun ItemsScreen(
                 onRaritySelected = viewModel::onRaritySelected,
                 onLocationSelected = viewModel::onLocationSelected,
                 onSortChanged = viewModel::onSortChanged,
+                onLoadMore = viewModel::loadMore,
                 onRefresh = viewModel::refresh,
                 onClearFilters = viewModel::clearFilters,
                 onItemClicked = onNavigateToDetail,
@@ -83,6 +85,7 @@ private fun ItemsSuccessScreen(
     onRaritySelected: (String?) -> Unit,
     onLocationSelected: (String?) -> Unit,
     onSortChanged: (SortOption) -> Unit,
+    onLoadMore: () -> Unit,
     onRefresh: () -> Unit,
     onClearFilters: () -> Unit,
     onItemClicked: (Long) -> Unit,
@@ -155,6 +158,47 @@ private fun ItemsSuccessScreen(
                                     "No items found"
                                 },
                                 icon = Icons.Default.FilterList
+                            )
+                        }
+                    }
+
+                    if (state.isLoadingMore) {
+                        item {
+                            CircularProgressIndicator(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                strokeWidth = 3.dp
+                            )
+                        }
+                    }
+
+                    if (state.hasMore) {
+                        item {
+                            Button(
+                                onClick = onLoadMore,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
+                                Text("Load More")
+                            }
+                        }
+                    }
+
+                    if (state.totalItems > 0 && state.items.isNotEmpty()) {
+                        item {
+                            Text(
+                                text = "Showing ${state.items.size} of ${state.totalItems} items",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
+                                textAlign = TextAlign.Center
                             )
                         }
                     }

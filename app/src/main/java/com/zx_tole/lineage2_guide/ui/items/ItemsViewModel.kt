@@ -4,11 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zx_tole.lineage2_guide.domain.model.*
 import com.zx_tole.lineage2_guide.domain.usecase.GetItemsUseCase
+import com.zx_tole.lineage2_guide.domain.usecase.GetTotalCountUseCase
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
+data class PaginationState(
+    val filter: ItemsFilter,
+    val page: Int,
+    val total: Int,
+    val isLoadingMore: Boolean
+)
+
 class ItemsViewModel(
-    getItemsUseCase: GetItemsUseCase
+    private val getItemsUseCase: GetItemsUseCase,
+    private val getTotalCountUseCase: GetTotalCountUseCase
 ) : ViewModel() {
 
     private val searchQueryFlow = MutableStateFlow("")
@@ -18,8 +28,9 @@ class ItemsViewModel(
     private val selectedRarityFlow = MutableStateFlow<String?>(null)
     private val selectedLocationFlow = MutableStateFlow<String?>(null)
     private val sortByFlow = MutableStateFlow(SortOption.NAME_ASC)
-
-    private val getItemsUseCase = getItemsUseCase
+    private val currentPageFlow = MutableStateFlow(0)
+    private val totalItemsFlow = MutableStateFlow(0)
+    private val isLoadingMoreFlow = MutableStateFlow(false)
 
     private val filterFlow: Flow<ItemsFilter> = combine(
         searchQueryFlow.debounce(300),
@@ -42,29 +53,51 @@ class ItemsViewModel(
         )
     }
 
-    val uiState: StateFlow<ItemsUiState> = filterFlow
-        .flatMapLatest { filter ->
-            getItemsUseCase.invoke(filter)
-                .catch { e ->
-                    Timber.e(e, "Error in items flow")
-                    emit(emptyList())
+    // Load total count when filters change
+    init {
+        filterFlow.distinctUntilChanged().onEach { filter ->
+            viewModelScope.launch {
+                try {
+                    val count = getTotalCountUseCase.invoke(filter)
+                    totalItemsFlow.value = count
+                } catch (e: Exception) {
+                    Timber.e(e, "Error fetching total count")
+                    totalItemsFlow.value = 0
                 }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    val uiState: StateFlow<ItemsUiState> = filterFlow
+        .combine(currentPageFlow) { filter, page ->
+            PaginationState(filter, page, totalItemsFlow.value, isLoadingMoreFlow.value)
         }
-        .map { items ->
-            ItemsUiState.Success(
-                items = items,
-                isLoading = false,
-                error = null,
-                filterState = FilterState(
-                    selectedClasses = selectedClassFlow.value?.let { setOf(it) } ?: emptySet(),
-                    levelRange = selectedLevelRangeFlow.value,
-                    selectedTypes = selectedTypeFlow.value?.let { setOf(it) } ?: emptySet(),
-                    selectedRarities = selectedRarityFlow.value?.let { setOf(it) } ?: emptySet(),
-                    selectedLocations = selectedLocationFlow.value?.let { setOf(it) } ?: emptySet(),
-                    searchQuery = searchQueryFlow.value,
-                    sortBy = sortByFlow.value
-                )
-            )
+        .combine(isLoadingMoreFlow) { state, isLoadingMore ->
+            state.copy(isLoadingMore = isLoadingMore)
+        }
+        .flatMapLatest { state ->
+            getItemsUseCase.invoke(state.filter.copy(page = state.page))
+                .map { items ->
+                    val hasMore = (state.page + 1) * state.filter.pageSize < state.total
+                    ItemsUiState.Success(
+                        items = items,
+                        isLoading = false,
+                        isLoadingMore = state.isLoadingMore,
+                        error = null,
+                        filterState = FilterState(
+                            selectedClasses = selectedClassFlow.value?.let { setOf(it) } ?: emptySet(),
+                            levelRange = selectedLevelRangeFlow.value,
+                            selectedTypes = selectedTypeFlow.value?.let { setOf(it) } ?: emptySet(),
+                            selectedRarities = selectedRarityFlow.value?.let { setOf(it) } ?: emptySet(),
+                            selectedLocations = selectedLocationFlow.value?.let { setOf(it) } ?: emptySet(),
+                            searchQuery = searchQueryFlow.value,
+                            sortBy = sortByFlow.value
+                        ),
+                        isRefreshing = false,
+                        totalItems = state.total,
+                        hasMore = hasMore
+                    )
+                }
         }
         .stateIn(
             scope = viewModelScope,
@@ -74,33 +107,51 @@ class ItemsViewModel(
 
     fun onSearchQueryChanged(query: String) {
         searchQueryFlow.value = query
+        currentPageFlow.value = 0
     }
 
     fun onClassSelected(classId: String?) {
         selectedClassFlow.value = classId
+        currentPageFlow.value = 0
     }
 
     fun onLevelRangeChanged(range: IntRange?) {
         selectedLevelRangeFlow.value = range
+        currentPageFlow.value = 0
     }
 
     fun onTypeSelected(type: String?) {
         selectedTypeFlow.value = type
+        currentPageFlow.value = 0
     }
 
     fun onRaritySelected(rarity: String?) {
         selectedRarityFlow.value = rarity
+        currentPageFlow.value = 0
     }
 
     fun onLocationSelected(location: String?) {
         selectedLocationFlow.value = location
+        currentPageFlow.value = 0
     }
 
     fun onSortChanged(sort: SortOption) {
         sortByFlow.value = sort
+        currentPageFlow.value = 0
+    }
+
+    fun loadMore() {
+        if (isLoadingMoreFlow.value) return
+        viewModelScope.launch {
+            isLoadingMoreFlow.value = true
+            currentPageFlow.update { it + 1 }
+            kotlinx.coroutines.delay(100)
+            isLoadingMoreFlow.value = false
+        }
     }
 
     fun refresh() {
+        currentPageFlow.value = 0
         searchQueryFlow.value = searchQueryFlow.value
     }
 
@@ -112,5 +163,6 @@ class ItemsViewModel(
         selectedRarityFlow.value = null
         selectedLocationFlow.value = null
         sortByFlow.value = SortOption.NAME_ASC
+        currentPageFlow.value = 0
     }
 }

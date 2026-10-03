@@ -10,5 +10,5 @@ data class ItemsFilter(
     val searchQuery: String? = null,
     val sortBy: SortOption = SortOption.NAME_ASC,
     val page: Int = 0,
-    val pageSize: Int = 10000
+    val pageSize: Int = 50
 )

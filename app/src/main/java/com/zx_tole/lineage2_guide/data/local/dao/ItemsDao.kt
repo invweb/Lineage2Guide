@@ -48,4 +48,24 @@ interface ItemsDao {
 
     @Query("DELETE FROM items")
     suspend fun clearItems()
+
+    @Query(
+        "SELECT COUNT(*) FROM items " +
+        "WHERE (:classRestriction IS NULL OR classRestriction = :classRestriction) " +
+        "AND (:minLevel IS NULL OR level >= :minLevel) " +
+        "AND (:maxLevel IS NULL OR level <= :maxLevel) " +
+        "AND (:type IS NULL OR type = :type) " +
+        "AND (:rarity IS NULL OR rarity = :rarity) " +
+        "AND (:location IS NULL OR location = :location) " +
+        "AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%')"
+    )
+    suspend fun getCountByFilter(
+        classRestriction: String?,
+        minLevel: Int?,
+        maxLevel: Int?,
+        type: String?,
+        rarity: String?,
+        location: String?,
+        searchQuery: String?
+    ): Int
 }

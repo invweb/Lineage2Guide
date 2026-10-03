@@ -4,9 +4,12 @@ sealed interface ItemsUiState {
     data class Success(
         val items: List<Item> = emptyList(),
         val isLoading: Boolean = false,
+        val isLoadingMore: Boolean = false,
         val error: String? = null,
         val filterState: FilterState = FilterState(),
-        val isRefreshing: Boolean = false
+        val isRefreshing: Boolean = false,
+        val totalItems: Int = 0,
+        val hasMore: Boolean = false
     ) : ItemsUiState {
         companion object {
             fun empty() = Success(isLoading = true)

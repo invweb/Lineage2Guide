@@ -97,6 +97,7 @@ fun repositoryModule(): Module = module {
 
 fun useCaseModule(): Module = module {
     single { GetItemsUseCase(get()) }
+    single { GetTotalCountUseCase(get()) }
     single { GetQuestsUseCase(get()) }
     single { GetSkillsUseCase(get()) }
     single { GetClassesUseCase(get()) }
@@ -104,7 +105,7 @@ fun useCaseModule(): Module = module {
 }
 
 fun viewModelModule(): Module = module {
-    viewModel { ItemsViewModel(get()) }
+    viewModel { ItemsViewModel(get(), get()) }
     viewModel { QuestsViewModel(get()) }
     viewModel { SkillsViewModel(get()) }
     viewModel { ClassesViewModel(get()) }

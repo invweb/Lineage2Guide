@@ -41,6 +41,18 @@ class ItemsRepositoryImpl(
             .flowOn(Dispatchers.IO)
     }
 
+    override suspend fun getTotalCount(filter: ItemsFilter): Int {
+        return itemsDao.getCountByFilter(
+            classRestriction = filter.classRestriction,
+            minLevel = filter.minLevel,
+            maxLevel = filter.maxLevel,
+            type = filter.type,
+            rarity = filter.rarity,
+            location = filter.location,
+            searchQuery = filter.searchQuery
+        )
+    }
+
     override fun getItemById(id: Long): Flow<Item?> {
         return itemsDao.getItemById(id)
             .map { entity -> entity?.let { itemMapper.toDomain(it) } }
