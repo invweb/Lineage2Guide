@@ -11,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,10 @@ import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 import com.zx_tole.lineage2_guide.ui.common.components.getRarityColor
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
+import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
+import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
+import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,36 +56,17 @@ fun ItemsScreen(
             )
         }
         is ItemsUiState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingScreen(
+                message = "Loading items...",
+                modifier = Modifier.fillMaxSize()
+            )
         }
         is ItemsUiState.Error -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        Icons.Default.Error,
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Error: ${state.message}",
-                        color = MaterialTheme.colorScheme.error
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = viewModel::refresh) {
-                        Text("Retry")
-                    }
-                }
-            }
+            ErrorScreen(
+                message = state.message ?: "Unknown error",
+                onRetry = viewModel::refresh,
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }
@@ -117,6 +101,7 @@ private fun ItemsSuccessScreen(
                     )
                 },
                 actions = {
+                    SyncIndicator(isSyncing = isRefreshing)
                     IconButton(onClick = { showFilterSheet = true }) {
                         Icon(
                             Icons.Default.FilterList,
@@ -161,33 +146,16 @@ private fun ItemsSuccessScreen(
 
                     if (state.items.isEmpty()) {
                         item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(32.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Icon(
-                                        Icons.Default.Search,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(48.dp),
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    Text(
-                                        text = "No items found",
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                    if (state.filterState.searchQuery.isNotBlank() ||
-                                        state.filterState.selectedTypes.isNotEmpty() ||
-                                        state.filterState.selectedRarities.isNotEmpty()) {
-                                        TextButton(onClick = onClearFilters) {
-                                            Text("Clear filters")
-                                        }
-                                    }
-                                }
-                            }
+                            EmptyScreen(
+                                message = if (state.filterState.searchQuery.isNotBlank() ||
+                                    state.filterState.selectedTypes.isNotEmpty() ||
+                                    state.filterState.selectedRarities.isNotEmpty()) {
+                                    "No items match your filters"
+                                } else {
+                                    "No items found"
+                                },
+                                icon = Icons.Default.FilterList
+                            )
                         }
                     }
                 }

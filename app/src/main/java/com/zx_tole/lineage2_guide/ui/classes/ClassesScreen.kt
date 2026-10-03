@@ -16,6 +16,10 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import org.koin.androidx.compose.koinViewModel
 import com.zx_tole.lineage2_guide.domain.model.GameClass
+import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
+import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
+import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
+import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,36 +31,17 @@ fun ClassesScreen(
 
     when {
         uiState.isLoading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingScreen(
+                message = "Loading classes...",
+                modifier = Modifier.fillMaxSize()
+            )
         }
         uiState.error != null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(
-                        Icons.Default.Error,
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp),
-                        tint = MaterialTheme.colorScheme.error
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Error: ${uiState.error}",
-                        color = MaterialTheme.colorScheme.error
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = viewModel::refresh) {
-                        Text("Retry")
-                    }
-                }
-            }
+            ErrorScreen(
+                message = uiState.error!!,
+                onRetry = viewModel::refresh,
+                modifier = Modifier.fillMaxSize()
+            )
         }
         else -> {
             ClassesSuccessScreen(
@@ -88,6 +73,7 @@ private fun ClassesSuccessScreen(
                     )
                 },
                 actions = {
+                    SyncIndicator(isSyncing = isRefreshing)
                     IconButton(onClick = onRefresh) {
                         Icon(
                             Icons.Default.Refresh,
@@ -105,24 +91,10 @@ private fun ClassesSuccessScreen(
             modifier = Modifier.padding(paddingValues)
         ) {
             if (classes.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            Icons.Default.Person,
-                            contentDescription = null,
-                            modifier = Modifier.size(48.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "No classes found",
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
+                EmptyScreen(
+                    message = "No classes found",
+                    icon = Icons.Default.Person
+                )
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
