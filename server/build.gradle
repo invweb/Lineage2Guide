@@ -5,17 +5,17 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:2.2.10")
     }
 }
 
 apply plugin: 'application'
 apply plugin: 'kotlin'
+apply plugin: 'kotlinx-serialization'
 
 application {
     mainClass = 'com.zx_tole.lineage2_guide.server.Lineage2ApplicationKt'
 }
-
-// Repositories managed globally in settings.gradle.kts
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -27,17 +27,13 @@ kotlin {
 }
 
 dependencies {
-    // Ktor Server (latest stable)
-    implementation "io.ktor:ktor-server-core-jvm:3.2.3"
-    implementation "io.ktor:ktor-server-netty-jvm:3.2.3"
-    implementation "io.ktor:ktor-server-cors-jvm:3.2.3"
-    
-    // Logging
-    implementation "ch.qos.logback:logback-classic:1.5.18"
-    
-    // Testing
-    testImplementation "org.jetbrains.kotlin:kotlin-test:2.3.0"
-    testImplementation "io.ktor:ktor-server-test-base-jvm:3.2.3"
+    implementation("io.ktor:ktor-server-core-jvm:3.2.3")
+    implementation("io.ktor:ktor-server-netty-jvm:3.2.3")
+    implementation("io.ktor:ktor-server-cors-jvm:3.2.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.2.3")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:2.3.0")
+    testImplementation("io.ktor:ktor-server-test-base-jvm:3.2.3")
 }
 
 test {

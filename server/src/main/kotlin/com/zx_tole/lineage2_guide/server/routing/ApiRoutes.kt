@@ -157,7 +157,7 @@ fun Routing.apiRoutes() {
 
 // JSON builders
 
-private fun q(s: String?) = if (s == null) "null" else "\"$s\""
+private fun q(s: String?) = if (s == null) "null" else "\"${s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "").replace("\t", "\\t")}\""
 
 private fun itemToJson(item: com.zx_tole.lineage2_guide.server.dto.ItemDto): String = buildString {
     append("{")
@@ -169,7 +169,7 @@ private fun itemToJson(item: com.zx_tole.lineage2_guide.server.dto.ItemDto): Str
     append("\"rarity\":${q(item.rarity)},")
     append("\"location\":${q(item.location)},")
     append("\"dropInfo\":${q(item.dropInfo)},")
-    append("\"stats\":[${item.stats.joinToString(",") { "\"${it.key}\":${it.value}" }}],")
+    append("\"stats\":${item.stats.joinToString(",", "[", "]") { "{\"key\":\"${it.key}\",\"value\":${it.value}}" }},")
     append("\"description\":${q(item.description)},")
     append("\"iconUrl\":${q(item.iconUrl)}")
     append("}")

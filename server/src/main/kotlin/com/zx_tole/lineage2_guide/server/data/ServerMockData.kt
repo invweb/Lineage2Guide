@@ -2,311 +2,62 @@ package com.zx_tole.lineage2_guide.server.data
 
 import com.zx_tole.lineage2_guide.server.dto.*
 
-private fun statsOf(vararg pairs: Pair<String, Int>) = pairs.map { MapEntry(it.first, it.second) }
-
 object ServerMockData {
 
-    val items = listOf(
-        ItemDto(
-            id = 1,
-            name = "Adamantite Gaiters",
-            classRestriction = "Warrior",
-            level = 76,
-            type = "Armor",
-            rarity = "Legendary",
-            location = "Olympiad Reward",
-            dropInfo = "Olympiad Games",
-            stats = statsOf("def" to 120, "maxHp" to 200),
-            description = "Heavy armor made from adamantite. Provides exceptional protection.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 2,
-            name = "Scroll: Enchant Armor S",
-            classRestriction = null,
-            level = 40,
-            type = "Scroll",
-            rarity = "Rare",
-            location = "Grand Boss",
-            dropInfo = "Antharas, Valakas",
-            stats = statsOf("enchantChance" to 15),
-            description = "Increases enchant success rate for armor by 15%.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 3,
-            name = "Raid Boss Health Potion",
-            classRestriction = null,
-            level = 10,
-            type = "Consumable",
-            rarity = "Common",
-            location = "Merchant",
-            dropInfo = null,
-            stats = statsOf("hpRecovery" to 500),
-            description = "Restores 500 HP. Effective against raid bosses.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 4,
-            name = "Draconic Leather Armor",
-            classRestriction = "Mage",
-            level = 80,
-            type = "Armor",
-            rarity = "Legendary",
-            location = "Draconic Lord Boss",
-            dropInfo = "Frintezza",
-            stats = statsOf("def" to 95, "mp" to 150, "mpRegen" to 5),
-            description = "Light armor crafted from draconic scales.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 5,
-            name = "Soulshot: Grade A",
-            classRestriction = null,
-            level = 50,
-            type = "Consumable",
-            rarity = "Uncommon",
-            location = "Merchant",
-            dropInfo = null,
-            stats = statsOf("attackBonus" to 25),
-            description = "Increases physical attack power for 1 hour.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 6,
-            name = "Arcana Mace",
-            classRestriction = "Mage",
-            level = 75,
-            type = "Weapon",
-            rarity = "Epic",
-            location = "God-Daoist",
-            dropInfo = "Zaken",
-            stats = statsOf("magicalAtk" to 350, "critical" to 15),
-            description = "A powerful mace imbued with arcane energy.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 7,
-            name = "Adamantite Helmet",
-            classRestriction = "Warrior",
-            level = 76,
-            type = "Armor",
-            rarity = "Legendary",
-            location = "Olympiad Reward",
-            dropInfo = "Olympiad Games",
-            stats = statsOf("def" to 110, "maxHp" to 180),
-            description = "Heavy helmet made from adamantite.",
-            iconUrl = null
-        ),
-        ItemDto(
-            id = 8,
-            name = "Blessed Scroll of Escape",
-            classRestriction = null,
-            level = 20,
-            type = "Scroll",
-            rarity = "Rare",
-            location = "Quest Reward",
-            dropInfo = "NPC: Village Master",
-            stats = statsOf("escapeChance" to 100),
-            description = "Guaranteed escape from any dungeon.",
-            iconUrl = null
-        )
+    // Current mock data (26 items total across all entities)
+    // To use real data from lineage2-api repository:
+    // 1. Download JSON files from https://github.com/cuteshaun/lineage2-api
+    // 2. Compress with: gzip -9 filename.json
+    // 3. Place .gz files in server/src/main/resources/
+    // 4. Change 'useRealData' to true below
+    
+    private val useRealData = true
+    
+    val items by lazy { if (useRealData) RealDataLoader.loadItems() else mockItems }
+    val quests by lazy { if (useRealData) RealDataLoader.loadQuests() else mockQuests }
+    val skills by lazy { if (useRealData) RealDataLoader.loadSkills() else mockSkills }
+    val classes by lazy { if (useRealData) RealDataLoader.loadClasses() else mockClasses }
+    val npcs by lazy { if (useRealData) RealDataLoader.loadNpcs() else mockNpcs }
+    
+    // Mock data (small subset for fast loading)
+    private val mockItems = listOf(
+        ItemDto(1, "Adamantite Gaiters", "Warrior", 76, "Armor", "Legendary", "Olympiad Reward", "Olympiad Games", listOf(MapEntry("def", 120), MapEntry("maxHp", 200)), "Heavy armor made from adamantite.", null),
+        ItemDto(2, "Scroll: Enchant Armor S", null, 40, "Scroll", "Rare", "Grand Boss", "Antharas, Valakas", listOf(MapEntry("enchantChance", 15)), "Increases enchant success rate.", null),
+        ItemDto(3, "Raid Boss Health Potion", null, 10, "Consumable", "Common", "Merchant", null, listOf(MapEntry("hpRecovery", 500)), "Restores 500 HP.", null),
+        ItemDto(4, "Draconic Leather Armor", "Mage", 80, "Armor", "Legendary", "Draconic Lord Boss", "Frintezza", listOf(MapEntry("def", 95), MapEntry("mp", 150)), "Light armor crafted from draconic scales.", null),
+        ItemDto(5, "Soulshot: Grade A", null, 50, "Consumable", "Uncommon", "Merchant", null, listOf(MapEntry("attackBonus", 25)), "Increases physical attack power.", null),
+        ItemDto(6, "Arcana Mace", "Mage", 75, "Weapon", "Epic", "God-Daoist", "Zaken", listOf(MapEntry("magicalAtk", 350), MapEntry("critical", 15)), "Powerful mace imbued with arcane energy.", null),
+        ItemDto(7, "Adamantite Helmet", "Warrior", 76, "Armor", "Legendary", "Olympiad Reward", "Olympiad Games", listOf(MapEntry("def", 110), MapEntry("maxHp", 180)), "Heavy helmet made from adamantite.", null),
+        ItemDto(8, "Blessed Scroll of Escape", null, 20, "Scroll", "Rare", "Quest Reward", "NPC: Village Master", listOf(MapEntry("escapeChance", 100)), "Guaranteed escape from any dungeon.", null)
     )
-
-    val quests = listOf(
-        QuestDto(
-            id = 1,
-            name = "On Your Own Power",
-            npcId = 101,
-            startLevel = 10,
-            reward = listOf(RewardDto("exp", 5000), RewardDto("sp", 2000)),
-            description = "Prove your worth by defeating monsters in the starting area.",
-            type = "Main",
-            prerequisites = emptyList(),
-            progressStatus = "Complete"
-        ),
-        QuestDto(
-            id = 2,
-            name = "The Essence of War",
-            npcId = 102,
-            startLevel = 30,
-            reward = listOf(RewardDto("item", 1), RewardDto("exp", 15000)),
-            description = "Collect war essence from raid bosses and deliver it to the quartermaster.",
-            type = "Side",
-            prerequisites = listOf(1),
-            progressStatus = "In Progress"
-        ),
-        QuestDto(
-            id = 3,
-            name = "Olympiad Preparation",
-            npcId = 103,
-            startLevel = 60,
-            reward = listOf(RewardDto("olympiadTicket", 10)),
-            description = "Complete trials to qualify for the Olympiad Games.",
-            type = "Main",
-            prerequisites = listOf(2),
-            progressStatus = "Not Started"
-        ),
-        QuestDto(
-            id = 4,
-            name = "Dragon's Breath",
-            npcId = 104,
-            startLevel = 75,
-            reward = listOf(RewardDto("item", 2), RewardDto("exp", 50000)),
-            description = "Investigate dragon activity in the northern mountains.",
-            type = "Raid",
-            prerequisites = listOf(3),
-            progressStatus = "Not Started"
-        )
+    
+    private val mockQuests = listOf(
+        QuestDto(1, "On Your Own Power", 101, 10, listOf(RewardDto("exp", 5000), RewardDto("sp", 2000)), "Prove your worth by defeating monsters.", "Main", emptyList(), "Complete"),
+        QuestDto(2, "The Essence of War", 102, 30, listOf(RewardDto("item", 1), RewardDto("exp", 15000)), "Collect war essence from raid bosses.", "Side", listOf(1), "In Progress"),
+        QuestDto(3, "Olympiad Preparation", 103, 60, listOf(RewardDto("olympiadTicket", 10)), "Complete trials to qualify for Olympiad.", "Main", listOf(2), "Not Started"),
+        QuestDto(4, "Dragon's Breath", 104, 75, listOf(RewardDto("item", 2), RewardDto("exp", 50000)), "Investigate dragon activity.", "Raid", listOf(3), "Not Started")
     )
-
-    val skills = listOf(
-        SkillDto(
-            id = 1,
-            name = "Power Strike",
-            classRestriction = "Warrior",
-            level = 1,
-            type = "Physical",
-            description = "A powerful strike that deals increased damage.",
-            cooldown = 5,
-            iconUrl = null,
-            manaCost = 10,
-            range = "Melee"
-        ),
-        SkillDto(
-            id = 2,
-            name = "Magic Shield",
-            classRestriction = "Mage",
-            level = 10,
-            type = "Defensive",
-            description = "Creates a magical barrier that absorbs damage.",
-            cooldown = 30,
-            iconUrl = null,
-            manaCost = 50,
-            range = "Self"
-        ),
-        SkillDto(
-            id = 3,
-            name = "Heal",
-            classRestriction = "Cleric",
-            level = 5,
-            type = "Healing",
-            description = "Restores health to an ally.",
-            cooldown = 10,
-            iconUrl = null,
-            manaCost = 30,
-            range = "300"
-        ),
-        SkillDto(
-            id = 4,
-            name = "Fireball",
-            classRestriction = "Mage",
-            level = 15,
-            type = "Magical",
-            description = "Hurls a ball of fire at enemies.",
-            cooldown = 8,
-            iconUrl = null,
-            manaCost = 40,
-            range = "400"
-        ),
-        SkillDto(
-            id = 5,
-            name = "Shield Bash",
-            classRestriction = "Warrior",
-            level = 20,
-            type = "Crowd Control",
-            description = "Stuns the target with a shield strike.",
-            cooldown = 20,
-            iconUrl = null,
-            manaCost = 25,
-            range = "Melee"
-        )
+    
+    private val mockSkills = listOf(
+        SkillDto(1, "Power Strike", "Warrior", 1, "Physical", "A powerful strike.", 5, null, 10, "Melee"),
+        SkillDto(2, "Magic Shield", "Mage", 10, "Defensive", "Creates a magical barrier.", 30, null, 50, "Self"),
+        SkillDto(3, "Heal", "Cleric", 5, "Healing", "Restores health to an ally.", 10, null, 30, "300"),
+        SkillDto(4, "Fireball", "Mage", 15, "Magical", "Hurls a ball of fire.", 8, null, 40, "400"),
+        SkillDto(5, "Shield Bash", "Warrior", 20, "Crowd Control", "Stuns the target.", 20, null, 25, "Melee")
     )
-
-    val classes = listOf(
-        ClassDto(
-            id = 1,
-            name = "Fighter",
-            race = "All",
-            subClasses = listOf("Warrior", "Paladin", "Dark Avenger"),
-            description = "Masters of melee combat with high physical damage.",
-            iconUrl = null,
-            baseStats = statsOf("str" to 15, "dex" to 10, "con" to 15)
-        ),
-        ClassDto(
-            id = 2,
-            name = "Mage",
-            race = "All",
-            subClasses = listOf("Sorcerer", "Archmage", "Myrst"),
-            description = "Powerful spellcasters with devastating magical abilities.",
-            iconUrl = null,
-            baseStats = statsOf("int" to 18, "wis" to 15, "men" to 10)
-        ),
-        ClassDto(
-            id = 3,
-            name = "Cleric",
-            race = "All",
-            subClasses = listOf("Oracle", "Saint"),
-            description = "Healers and support specialists.",
-            iconUrl = null,
-            baseStats = statsOf("int" to 12, "wis" to 18, "con" to 10)
-        ),
-        ClassDto(
-            id = 4,
-            name = "Rogue",
-            race = "All",
-            subClasses = listOf("Adventurer", "Treasure Hunter", "Blood Hunter"),
-            description = "Stealthy fighters specializing in critical hits and evasion.",
-            iconUrl = null,
-            baseStats = statsOf("dex" to 16, "str" to 8, "con" to 12)
-        )
+    
+    private val mockClasses = listOf(
+        ClassDto(1, "Fighter", "All", listOf("Warrior", "Paladin", "Dark Avenger"), "Masters of melee combat.", null, emptyList()),
+        ClassDto(2, "Mage", "All", listOf("Sorcerer", "Archmage", "Myrst"), "Powerful spellcasters.", null, emptyList()),
+        ClassDto(3, "Cleric", "All", listOf("Oracle", "Saint"), "Healers and support specialists.", null, emptyList()),
+        ClassDto(4, "Rogue", "All", listOf("Adventurer", "Treasure Hunter", "Blood Hunter"), "Stealthy fighters.", null, emptyList())
     )
-
-    val npcs = listOf(
-        NpcDto(
-            id = 101,
-            name = "Village Master",
-            type = "Quest Giver",
-            location = "Every Village",
-            description = "Offers beginner quests and guides new players.",
-            relatedQuestIds = listOf(1),
-            iconUrl = null
-        ),
-        NpcDto(
-            id = 102,
-            name = "Quartermaster",
-            type = "Vendor",
-            location = "Gludin Castle",
-            description = "Sells rare items and quest materials.",
-            relatedQuestIds = listOf(2),
-            iconUrl = null
-        ),
-        NpcDto(
-            id = 103,
-            name = "Olympiad Administrator",
-            type = "Quest Giver",
-            location = "God's Valley Dungeon",
-            description = "Manages Olympiad Games registration.",
-            relatedQuestIds = listOf(3),
-            iconUrl = null
-        ),
-        NpcDto(
-            id = 104,
-            name = "Dragon Scholar",
-            type = "Researcher",
-            location = "Valley of Saints",
-            description = "Studies dragon behavior and provides raid information.",
-            relatedQuestIds = listOf(4),
-            iconUrl = null
-        ),
-        NpcDto(
-            id = 105,
-            name = "Antharas",
-            type = "Raid Boss",
-            location = "Orc's Lair",
-            description = "Ancient dragon that appears every 4 days.",
-            relatedQuestIds = emptyList(),
-            iconUrl = null
-        )
+    
+    private val mockNpcs = listOf(
+        NpcDto(101, "Village Master", "Quest Giver", "Every Village", "Offers beginner quests.", listOf(1), null),
+        NpcDto(102, "Quartermaster", "Vendor", "Gludin Castle", "Sells rare items.", listOf(2), null),
+        NpcDto(103, "Olympiad Administrator", "Quest Giver", "God's Valley Dungeon", "Manages Olympiad Games.", listOf(3), null),
+        NpcDto(104, "Dragon Scholar", "Researcher", "Valley of Saints", "Studies dragon behavior.", listOf(4), null),
+        NpcDto(105, "Antharas", "Raid Boss", "Orc's Lair", "Ancient dragon.", emptyList(), null)
     )
 }
