@@ -106,6 +106,10 @@ Server starts on `http://localhost:8080` (emulator: `http://10.0.2.2:8080`).
 | `GET /api/v1/classes/{id}` | Get class by ID |
 | `GET /api/v1/sync` | Check for updates |
 
+## 🤖 AI-Assisted Development
+
+This project was developed with AI assistance using **GigaCode** by Sber — an interactive AI coding assistant designed for software engineering tasks. AI was used for architecture decisions, code generation, debugging, and implementing complex features including data compression, serialization, and the full MVVM architecture.
+
 ## 📝 License
 
 MIT License
