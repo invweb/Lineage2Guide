@@ -20,6 +20,7 @@ import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
 import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
+import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +49,9 @@ fun SkillsScreen(
                 skills = uiState.skills,
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = viewModel::refresh,
-                onSkillClicked = onNavigateToDetail
+                onSkillClicked = onNavigateToDetail,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged
             )
         }
     }
@@ -60,7 +63,9 @@ private fun SkillsSuccessScreen(
     skills: List<Skill>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onSkillClicked: (Long) -> Unit
+    onSkillClicked: (Long) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -85,26 +90,34 @@ private fun SkillsSuccessScreen(
             )
         }
     ) { paddingValues ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            if (skills.isEmpty()) {
-                EmptyScreen(
-                    message = "No skills found",
-                    icon = Icons.Default.Bolt
-                )
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(skills, key = { it.id }) { skill ->
-                        SkillCard(
-                            skill = skill,
-                            onClick = { onSkillClicked(skill.id) }
-                        )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SearchBar(
+                query = searchQuery,
+                onQueryChanged = onSearchQueryChanged,
+                onClear = { onSearchQueryChanged("") }
+            )
+
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (skills.isEmpty()) {
+                    EmptyScreen(
+                        message = if (searchQuery.isNotBlank()) "No skills match your search" else "No skills found",
+                        icon = Icons.Default.Bolt
+                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(skills, key = { it.id }) { skill ->
+                            SkillCard(
+                                skill = skill,
+                                onClick = { onSkillClicked(skill.id) }
+                            )
+                        }
                     }
                 }
             }

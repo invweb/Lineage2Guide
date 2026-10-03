@@ -20,6 +20,7 @@ import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
 import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
+import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +49,9 @@ fun NpcsScreen(
                 npcs = uiState.npcs,
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = viewModel::refresh,
-                onNpcClicked = onNavigateToDetail
+                onNpcClicked = onNavigateToDetail,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged
             )
         }
     }
@@ -60,7 +63,9 @@ private fun NpcsSuccessScreen(
     npcs: List<Npc>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onNpcClicked: (Long) -> Unit
+    onNpcClicked: (Long) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -85,26 +90,34 @@ private fun NpcsSuccessScreen(
             )
         }
     ) { paddingValues ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            if (npcs.isEmpty()) {
-                EmptyScreen(
-                    message = "No NPCs found",
-                    icon = Icons.Default.LocationOn
-                )
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(npcs, key = { it.id }) { npc ->
-                        NpcCard(
-                            npc = npc,
-                            onClick = { onNpcClicked(npc.id) }
-                        )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SearchBar(
+                query = searchQuery,
+                onQueryChanged = onSearchQueryChanged,
+                onClear = { onSearchQueryChanged("") }
+            )
+
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (npcs.isEmpty()) {
+                    EmptyScreen(
+                        message = if (searchQuery.isNotBlank()) "No NPCs match your search" else "No NPCs found",
+                        icon = Icons.Default.LocationOn
+                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(npcs, key = { it.id }) { npc ->
+                            NpcCard(
+                                npc = npc,
+                                onClick = { onNpcClicked(npc.id) }
+                            )
+                        }
                     }
                 }
             }

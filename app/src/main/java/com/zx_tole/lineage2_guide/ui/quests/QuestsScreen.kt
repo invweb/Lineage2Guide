@@ -20,6 +20,7 @@ import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
 import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
+import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +49,9 @@ fun QuestsScreen(
                 quests = uiState.quests,
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = viewModel::refresh,
-                onQuestClicked = onNavigateToDetail
+                onQuestClicked = onNavigateToDetail,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged
             )
         }
     }
@@ -60,7 +63,9 @@ private fun QuestsSuccessScreen(
     quests: List<Quest>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onQuestClicked: (Long) -> Unit
+    onQuestClicked: (Long) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -85,26 +90,34 @@ private fun QuestsSuccessScreen(
             )
         }
     ) { paddingValues ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            if (quests.isEmpty()) {
-                EmptyScreen(
-                    message = "No quests found",
-                    icon = Icons.Default.List
-                )
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(quests, key = { it.id }) { quest ->
-                        QuestCard(
-                            quest = quest,
-                            onClick = { onQuestClicked(quest.id) }
-                        )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SearchBar(
+                query = searchQuery,
+                onQueryChanged = onSearchQueryChanged,
+                onClear = { onSearchQueryChanged("") }
+            )
+
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (quests.isEmpty()) {
+                    EmptyScreen(
+                        message = if (searchQuery.isNotBlank()) "No quests match your search" else "No quests found",
+                        icon = Icons.Default.List
+                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(quests, key = { it.id }) { quest ->
+                            QuestCard(
+                                quest = quest,
+                                onClick = { onQuestClicked(quest.id) }
+                            )
+                        }
                     }
                 }
             }

@@ -9,10 +9,15 @@ import com.zx_tole.lineage2_guide.data.repository.*
 import com.zx_tole.lineage2_guide.domain.repository.*
 import com.zx_tole.lineage2_guide.domain.usecase.*
 import com.zx_tole.lineage2_guide.ui.items.ItemsViewModel
+import com.zx_tole.lineage2_guide.ui.items.ItemDetailViewModel
 import com.zx_tole.lineage2_guide.ui.quests.QuestsViewModel
+import com.zx_tole.lineage2_guide.ui.quests.QuestDetailViewModel
 import com.zx_tole.lineage2_guide.ui.skills.SkillsViewModel
+import com.zx_tole.lineage2_guide.ui.skills.SkillDetailViewModel
 import com.zx_tole.lineage2_guide.ui.classes.ClassesViewModel
+import com.zx_tole.lineage2_guide.ui.classes.ClassDetailViewModel
 import com.zx_tole.lineage2_guide.ui.npcs.NpcsViewModel
+import com.zx_tole.lineage2_guide.ui.npcs.NpcDetailViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -105,9 +110,14 @@ fun useCaseModule(): Module = module {
 }
 
 fun viewModelModule(): Module = module {
+    viewModel { ItemDetailViewModel(get(), get()) }
     viewModel { ItemsViewModel(get(), get()) }
     viewModel { QuestsViewModel(get()) }
+    viewModel { QuestDetailViewModel(get()) }
     viewModel { SkillsViewModel(get()) }
-    viewModel { ClassesViewModel(get()) }
+    viewModel { SkillDetailViewModel(get()) }
+    viewModel { ClassesViewModel(get(), get()) }
+    viewModel { ClassDetailViewModel(get()) }
     viewModel { NpcsViewModel(get()) }
+    viewModel { NpcDetailViewModel(get()) }
 }

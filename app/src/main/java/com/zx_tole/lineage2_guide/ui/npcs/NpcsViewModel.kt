@@ -10,10 +10,11 @@ import timber.log.Timber
 
 data class NpcsUiState(
     val npcs: List<Npc> = emptyList(),
+    val allNpcs: List<Npc> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: String? = null,
-    val filterType: String? = null
+    val searchQuery: String = ""
 )
 
 class NpcsViewModel(
@@ -38,6 +39,7 @@ class NpcsViewModel(
                     .collect { npcs ->
                         _uiState.update {
                             it.copy(
+                                allNpcs = npcs,
                                 npcs = npcs,
                                 isLoading = false,
                                 error = null
@@ -60,9 +62,21 @@ class NpcsViewModel(
                         Timber.e(e, "Error refreshing npcs")
                     }
                     .collect { npcs ->
+                        val query = _uiState.value.searchQuery
+                        val filtered = if (query.isNotBlank()) {
+                            npcs.filter { n ->
+                                n.name.contains(query, ignoreCase = true) ||
+                                    n.type.name.contains(query, ignoreCase = true) ||
+                                    n.location.contains(query, ignoreCase = true) ||
+                                    n.description?.contains(query, ignoreCase = true) == true
+                            }
+                        } else {
+                            npcs
+                        }
                         _uiState.update {
                             it.copy(
-                                npcs = npcs,
+                                allNpcs = npcs,
+                                npcs = filtered,
                                 isRefreshing = false,
                                 error = null
                             )
@@ -75,27 +89,24 @@ class NpcsViewModel(
         }
     }
 
-    fun filterByType(type: String?) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(filterType = type, isLoading = true) }
-            try {
-                getNpcsUseCase.invoke(type = type)
-                    .catch { e ->
-                        Timber.e(e, "Error filtering npcs")
-                    }
-                    .collect { npcs ->
-                        _uiState.update {
-                            it.copy(
-                                npcs = npcs,
-                                isLoading = false,
-                                error = null
-                            )
-                        }
-                    }
-            } catch (e: Exception) {
-                Timber.e(e, "Error in filter")
-                _uiState.update { it.copy(isLoading = false, error = e.message) }
+    fun onSearchQueryChanged(query: String) {
+        _uiState.update { state ->
+            val filtered = if (query.isNotBlank()) {
+                state.allNpcs.filter { n ->
+                    n.name.contains(query, ignoreCase = true) ||
+                        n.type.name.contains(query, ignoreCase = true) ||
+                        n.location.contains(query, ignoreCase = true) ||
+                        n.description?.contains(query, ignoreCase = true) == true
+                }
+            } else {
+                state.allNpcs
             }
+            state.copy(
+                npcs = filtered,
+                searchQuery = query,
+                isLoading = false,
+                error = null
+            )
         }
     }
 }

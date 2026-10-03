@@ -6,4 +6,12 @@ sealed class Screen(val route: String) {
     object Skills : Screen("skills")
     object Classes : Screen("classes")
     object Npcs : Screen("npcs")
+    
+    companion object {
+        const val ITEM_DETAIL = "item_detail/{itemId}"
+        const val QUEST_DETAIL = "quest_detail/{questId}"
+        const val SKILL_DETAIL = "skill_detail/{skillId}"
+        const val CLASS_DETAIL = "class_detail/{classId}"
+        const val NPC_DETAIL = "npc_detail/{npcId}"
+    }
 }

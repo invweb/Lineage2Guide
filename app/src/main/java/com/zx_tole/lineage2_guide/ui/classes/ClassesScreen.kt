@@ -20,6 +20,7 @@ import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
 import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
+import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +49,9 @@ fun ClassesScreen(
                 classes = uiState.classes,
                 isRefreshing = uiState.isRefreshing,
                 onRefresh = viewModel::refresh,
-                onClassClicked = onNavigateToDetail
+                onClassClicked = onNavigateToDetail,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged
             )
         }
     }
@@ -60,7 +63,9 @@ private fun ClassesSuccessScreen(
     classes: List<GameClass>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
-    onClassClicked: (Long) -> Unit
+    onClassClicked: (Long) -> Unit,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -85,26 +90,34 @@ private fun ClassesSuccessScreen(
             )
         }
     ) { paddingValues ->
-        PullToRefreshBox(
-            isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            if (classes.isEmpty()) {
-                EmptyScreen(
-                    message = "No classes found",
-                    icon = Icons.Default.Person
-                )
-            } else {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(classes, key = { it.id }) { classData ->
-                        ClassCard(
-                            classData = classData,
-                            onClick = { onClassClicked(classData.id) }
-                        )
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SearchBar(
+                query = searchQuery,
+                onQueryChanged = onSearchQueryChanged,
+                onClear = { onSearchQueryChanged("") }
+            )
+
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.weight(1f)
+            ) {
+                if (classes.isEmpty()) {
+                    EmptyScreen(
+                        message = if (searchQuery.isNotBlank()) "No classes match your search" else "No classes found",
+                        icon = Icons.Default.Person
+                    )
+                } else {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(classes, key = { it.id }) { classData ->
+                            ClassCard(
+                                classData = classData,
+                                onClick = { onClassClicked(classData.id) }
+                            )
+                        }
                     }
                 }
             }

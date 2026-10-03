@@ -10,10 +10,11 @@ import timber.log.Timber
 
 data class SkillsUiState(
     val skills: List<Skill> = emptyList(),
+    val allSkills: List<Skill> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: String? = null,
-    val filterClass: String? = null
+    val searchQuery: String = ""
 )
 
 class SkillsViewModel(
@@ -38,6 +39,7 @@ class SkillsViewModel(
                     .collect { skills ->
                         _uiState.update {
                             it.copy(
+                                allSkills = skills,
                                 skills = skills,
                                 isLoading = false,
                                 error = null
@@ -60,9 +62,21 @@ class SkillsViewModel(
                         Timber.e(e, "Error refreshing skills")
                     }
                     .collect { skills ->
+                        val query = _uiState.value.searchQuery
+                        val filtered = if (query.isNotBlank()) {
+                            skills.filter { s ->
+                                s.name.contains(query, ignoreCase = true) ||
+                                    s.classRestriction.contains(query, ignoreCase = true) ||
+                                    s.type.name.contains(query, ignoreCase = true) ||
+                                    s.description?.contains(query, ignoreCase = true) == true
+                            }
+                        } else {
+                            skills
+                        }
                         _uiState.update {
                             it.copy(
-                                skills = skills,
+                                allSkills = skills,
+                                skills = filtered,
                                 isRefreshing = false,
                                 error = null
                             )
@@ -75,27 +89,24 @@ class SkillsViewModel(
         }
     }
 
-    fun filterByClass(classRestriction: String?) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(filterClass = classRestriction, isLoading = true) }
-            try {
-                getSkillsUseCase.invoke(classRestriction = classRestriction)
-                    .catch { e ->
-                        Timber.e(e, "Error filtering skills")
-                    }
-                    .collect { skills ->
-                        _uiState.update {
-                            it.copy(
-                                skills = skills,
-                                isLoading = false,
-                                error = null
-                            )
-                        }
-                    }
-            } catch (e: Exception) {
-                Timber.e(e, "Error in filter")
-                _uiState.update { it.copy(isLoading = false, error = e.message) }
+    fun onSearchQueryChanged(query: String) {
+        _uiState.update { state ->
+            val filtered = if (query.isNotBlank()) {
+                state.allSkills.filter { s ->
+                    s.name.contains(query, ignoreCase = true) ||
+                        s.classRestriction.contains(query, ignoreCase = true) ||
+                        s.type.name.contains(query, ignoreCase = true) ||
+                        s.description?.contains(query, ignoreCase = true) == true
+                }
+            } else {
+                state.allSkills
             }
+            state.copy(
+                skills = filtered,
+                searchQuery = query,
+                isLoading = false,
+                error = null
+            )
         }
     }
 }

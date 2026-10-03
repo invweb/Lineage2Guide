@@ -2,6 +2,16 @@
 
 A mobile companion guide app for Lineage 2 (Interlude chronicle) with offline caching, real-time sync, and comprehensive game data.
 
+## 📱 Screenshots
+
+<p align="center">
+  <img src="screenshots/items.png" width="200" alt="Items Screen"/>
+  <img src="screenshots/quests.png" width="200" alt="Quests Screen"/>
+  <img src="screenshots/skills.png" width="200" alt="Skills Screen"/>
+  <img src="screenshots/classes.png" width="200" alt="Classes Screen"/>
+  <img src="screenshots/npcs.png" width="200" alt="NPCs Screen"/>
+</p>
+
 ## 📱 Features
 
 - **📦 31,000+ items** — weapons, armor, consumables with stats and drop info

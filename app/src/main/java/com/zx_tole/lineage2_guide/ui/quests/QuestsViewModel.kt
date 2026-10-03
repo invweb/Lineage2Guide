@@ -10,10 +10,11 @@ import timber.log.Timber
 
 data class QuestsUiState(
     val quests: List<Quest> = emptyList(),
+    val allQuests: List<Quest> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: String? = null,
-    val filterType: String? = null
+    val searchQuery: String = ""
 )
 
 class QuestsViewModel(
@@ -38,6 +39,7 @@ class QuestsViewModel(
                     .collect { quests ->
                         _uiState.update {
                             it.copy(
+                                allQuests = quests,
                                 quests = quests,
                                 isLoading = false,
                                 error = null
@@ -60,9 +62,20 @@ class QuestsViewModel(
                         Timber.e(e, "Error refreshing quests")
                     }
                     .collect { quests ->
+                        val query = _uiState.value.searchQuery
+                        val filtered = if (query.isNotBlank()) {
+                            quests.filter { q ->
+                                q.name.contains(query, ignoreCase = true) ||
+                                    q.type.name.contains(query, ignoreCase = true) ||
+                                    q.description?.contains(query, ignoreCase = true) == true
+                            }
+                        } else {
+                            quests
+                        }
                         _uiState.update {
                             it.copy(
-                                quests = quests,
+                                allQuests = quests,
+                                quests = filtered,
                                 isRefreshing = false,
                                 error = null
                             )
@@ -75,27 +88,23 @@ class QuestsViewModel(
         }
     }
 
-    fun filterByType(type: String?) {
-        viewModelScope.launch {
-            _uiState.update { it.copy(filterType = type, isLoading = true) }
-            try {
-                getQuestsUseCase.invoke(type = type)
-                    .catch { e ->
-                        Timber.e(e, "Error filtering quests")
-                    }
-                    .collect { quests ->
-                        _uiState.update {
-                            it.copy(
-                                quests = quests,
-                                isLoading = false,
-                                error = null
-                            )
-                        }
-                    }
-            } catch (e: Exception) {
-                Timber.e(e, "Error in filter")
-                _uiState.update { it.copy(isLoading = false, error = e.message) }
+    fun onSearchQueryChanged(query: String) {
+        _uiState.update { state ->
+            val filtered = if (query.isNotBlank()) {
+                state.allQuests.filter { q ->
+                    q.name.contains(query, ignoreCase = true) ||
+                        q.type.name.contains(query, ignoreCase = true) ||
+                        q.description?.contains(query, ignoreCase = true) == true
+                }
+            } else {
+                state.allQuests
             }
+            state.copy(
+                quests = filtered,
+                searchQuery = query,
+                isLoading = false,
+                error = null
+            )
         }
     }
 }

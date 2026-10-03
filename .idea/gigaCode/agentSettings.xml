@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GigaCodeAgentSettings">
+    <option name="autoApprovedCommands">
+      <list>
+        <Execute>
+          <option name="pattern" value="cd *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="./gradlew *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="tail *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="head *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="mkdir -p /Users/vasiliikarpenko/AndroidStudioProjects/MyApplication4/server/src/main/kotlin/com/zx_tole/lineage2_guide/server" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="mkdir -p /Users/vasiliikarpenko/AndroidStudioProjects/MyApplication4/server/src/main/resources" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 5" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 8" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 10" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 12" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="cat *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 15" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 20" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="pkill ktor-server *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s http://localhost:8080/api/v1/items" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -v http://localhost:8080/api/v1/items 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="pkill ktor *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="grep *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s http://localhost:8080/api/v1/quests" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git status *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="wc *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git add *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="echo *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git log *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git diff *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git commit *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git status" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git ls-files *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="find *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sort" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git ls-tree *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sort &gt; /tmp/all_kotlin_files.txt" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/api&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://lineage2.gitbook.io&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2central.gg/api&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2prod.com/api&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.com/api&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2korea.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.com/api/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.com/api/characters&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/api/items/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="echo" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2data.io&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2network.eu&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2jserver.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.ru/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.ru/skills&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.ru/quests&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://raw.githubusercontent.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/en/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/api/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/api/skills&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+data+json&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage+2+database+api&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+items+skills+quests&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+json+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2+skills+items+json&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+data+csv&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+server+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+skills+items+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+wiki+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+api&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+database&amp;sort=stars&amp;order=desc&amp;per_page=20&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2+data&amp;sort=stars&amp;order=desc&amp;per_page=20&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage+2+game+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+data+dump&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2+skills+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/api/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/api/skills/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2wiki.com&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/items&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/items/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/npcs/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/teleports/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.ru/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://l2db.ru/items/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2info.ru/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/skills/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s -o /dev/null -w &quot;%{http_code}&quot; &quot;https://l2db.ru/quests/&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+database+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2jserver+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/code?q=l2j+database+sql+extension:sql&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+server+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2j+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+sql+dump&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2jserver&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+jdbc+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=acis+l2j+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2j-datapack&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+server+java&amp;sort=stars&amp;order=desc&amp;per_page=15&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2off+server&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2j+lineage2+datapack&amp;sort=stars&amp;order=desc&amp;per_page=15&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2jserver+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+database+mysql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=repo%3Amobiusdev%2Fl2jserver&amp;per_page=5&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/repos/mobiusdev/l2jserver/contents&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2jserver+datapack+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/repos/L2J/L2J_DataPack/contents/sql&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/repos/L2J/L2J_DataPack/contents&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=L2J+lineage2+server&amp;sort=stars&amp;order=desc&amp;per_page=20&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repositories/88701080/contents&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repositories/88701080/contents/sql&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=L2J-Mobius+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=ACIS+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=L2JBrasil+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=L2Frozen+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repos/cuteshaun/lineage2-api/contents&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=filename%3A.sql+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+data+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repos/cuteshaun/lineage2-api/contents/data&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+items+npcs+skills&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+jdbc+datafiles&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repos/cuteshaun/lineage2-api/contents/data/datapack&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repos/cuteshaun/lineage2-api/contents/data/generated&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://api.github.com/repos/cuteshaun/lineage2-api/contents/data/generated/interlude&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+drop+data+items&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://raw.githubusercontent.com/cuteshaun/lineage2-api/main/data/generated/interlude/items.json&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://raw.githubusercontent.com/cuteshaun/lineage2-api/main/data/generated/interlude/skills.json&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://raw.githubusercontent.com/cuteshaun/lineage2-api/main/data/generated/interlude/npcs.json&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://raw.githubusercontent.com/cuteshaun/lineage2-api/main/data/generated/interlude/quests.json&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -sL &quot;https://raw.githubusercontent.com/cuteshaun/lineage2-api/main/data/generated/interlude/drops.json&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+sql+dump+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/code?q=extension:sql+lineage2&amp;per_page=5&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+jdbc+data+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2j+interlude+sql&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=filename%3A*.sql+lineage2&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+database+interlude&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+datafiles&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+items+skills&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2j+interlude+datapack&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+database&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;&#10;import sys, json&#10;data = json.load(sys.stdin)&#10;total_size = 0&#10;for item in data:&#10;    size_mb = item['size'] / (1024*1024)&#10;    total_size += item['size']&#10;    print(f\&quot;{item['name']:30s} {size_mb:8.2f} MB\&quot;)&#10;print(f'\\nTotal size: {total_size/(1024*1024):.2f} MB')&#10;&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;&#10;import sys, json&#10;data = json.load(sys.stdin)&#10;print('Record counts:')&#10;for item in data:&#10;    name = item['name']&#10;    if 'items' in name:&#10;        print(f'  Items: ~9200 records (9.2 MB)')&#10;    elif 'skills' in name:&#10;        print(f'  Skills: ~15300 records (6.9 MB)')&#10;    elif 'npcs' in name:&#10;        print(f'  NPCs: ~6470 records (8.7 MB)')&#10;    elif 'drops' in name:&#10;        print(f'  Drops: ~2376 records (4.7 MB)')&#10;    elif 'quests' in name:&#10;        print(f'  Quests: ~329 records (203 KB)')&#10;    elif 'classes' in name:&#10;        print(f'  Classes: ~1.7 MB')&#10;    elif 'spawns' in name:&#10;        print(f'  Spawns: ~6.8 MB')&#10;    elif 'recipes' in name:&#10;        print(f'  Recipes: ~502 KB')&#10;    elif 'buylists' in name:&#10;        print(f'  Buylists: ~787 KB')&#10;    else:&#10;        print(f'  {name}: {item[\&quot;size\&quot;]/(1024):.1f} KB')&#10;&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+data+files&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=lineage2+interlude+sql+items&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=Lineage2+interlude+data&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl -s &quot;https://api.github.com/search/repositories?q=l2+interlude+data+json&amp;sort=stars&amp;order=desc&amp;per_page=10&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="curl *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="tr -cd '\11\12\15\40-\176'" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="ls *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 3" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="ps *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Total items: {len(d)}'); print(f'First: {json.dumps(d[0], indent=2)[:500] if d else \&quot;empty\&quot;}')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(type(d)); print(json.dumps(d, indent=2)[:1000])&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="awk '{print $2}'" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="gunzip -c items.json.gz" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="gunzip -c skills.json.gz" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Items: {len(d.get(\&quot;items\&quot;, []))}'); print(f'First: {json.dumps(d[\&quot;items\&quot;][0], indent=2)[:400] if d.get(\&quot;items\&quot;) else \&quot;empty\&quot;}')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); items=d.get('items',[]); print(f'Items count: {len(items)}'); print(f'First: {json.dumps(items[0], indent=2)[:300] if items else \&quot;empty\&quot;}')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server2.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="lsof" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server3.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); items=d.get('items',[]); print(f'Items: {len(items)}'); [print(json.dumps(items[0], indent=2)[:400])] if items else print('Empty')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server4.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 30" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server6.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server7.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server8.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server9.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); items=d.get('items',[]); print(f'Items count: {len(items)}'); print(f'First: {json.dumps(items[0], indent=2)[:400] if items else \&quot;empty\&quot;}')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Skills: {len(d.get(\&quot;skills\&quot;,[]))}')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server11.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Items: {len(d.get(\&quot;items\&quot;,[]))}')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sed -n '188,194p' /Users/vasiliikarpenko/AndroidStudioProjects/MyApplication4/server/src/main/kotlin/com/zx_tole/lineage2_guide/server/data/RealDataLoader.kt" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Quests: {len(d.get(\&quot;quests\&quot;,[]))}')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="cut -c 3203600-3203700" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Classes: {len(d.get(\&quot;classes\&quot;,[]))}')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="strings /tmp/ktor-server14.log" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'NPCs: {len(d.get(\&quot;npcs\&quot;,[]))}')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git rm *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git remote *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="git push *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Server OK: {len(d.get(\&quot;items\&quot;,[]))} items')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'✅ Server OK: {len(d.get(\&quot;items\&quot;,[]))} items')&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="adb devices *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="~/Library/Android/sdk/platform-tools/adb devices *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="~/Library/Android/sdk/platform-tools/adb install *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="~/Library/Android/sdk/platform-tools/adb shell *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="~/Library/Android/sdk/platform-tools/adb logcat *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="ipconfig getifaddr *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); items=d['items']; print('iconUrl examples:'); [print(f'  {item[\&quot;name\&quot;]}: {item.get(\&quot;iconUrl\&quot;, \&quot;N/A\&quot;)}') for item in items[:10]]&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); skills=d['skills']; print('iconFile examples:'); [print(f'  {s[\&quot;name\&quot;]}: {s.get(\&quot;iconUrl\&quot;, \&quot;N/A\&quot;)}') for s in skills[:5]]&quot; 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -m json.tool 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="pwd" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="lsof -i :8080 -t 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="nohup ./gradlew *" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="lsof -i :8080 -t" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="/usr/libexec/ApplicationFirewall/socketfilterfw --getglobal 2&gt;&amp;1" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="pkill -f &quot;server:run&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="mkdir -p /Users/vasiliikarpenko/AndroidStudioProjects/MyApplication4/screenshots" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Skills: {len(d[\&quot;skills\&quot;])}')&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 14" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Classes: {len(d[\&quot;classes\&quot;])}')&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Quests: {len(d[\&quot;quests\&quot;])}')&quot; 2&gt;/dev/null" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Items: {len(d[\&quot;items\&quot;])}')&quot;" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -m json.tool" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="sleep 2" />
+        </Execute>
+        <Execute>
+          <option name="pattern" value="python3 -c &quot;import sys,json; d=json.load(sys.stdin); print(f'Classes: {len(d[\&quot;classes\&quot;])}')&quot;" />
+        </Execute>
+      </list>
+    </option>
+    <option name="autoApprovedReads">
+      <list>
+        <Read>
+          <option name="pattern" value="/app/build.gradle.kts" />
+        </Read>
+        <Read>
+          <option name="pattern" value="/gradle/libs.versions.toml" />
+        </Read>
+        <Read>
+          <option name="pattern" value="/app/src/main/kotlin/com/example/lineage2/*" />
+        </Read>
+      </list>
+    </option>
+  </component>
+</project>

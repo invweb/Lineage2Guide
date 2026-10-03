@@ -34,6 +34,11 @@ class GetClassesUseCase(
     }
 }
 
+// Helper to get all classes
+fun GetClassesUseCase.getAll(): Flow<List<GameClass>> {
+    return this.invoke(race = null, searchQuery = null)
+}
+
 class GetNpcsUseCase(
     private val repository: NpcsRepository
 ) {

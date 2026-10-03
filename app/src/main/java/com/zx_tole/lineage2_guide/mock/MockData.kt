@@ -229,7 +229,11 @@ object MockData {
             subClasses = listOf("Warlord", "Monk", "Paladin", "Dark Avenger"),
             description = "Master of melee combat and party buffs. Warlords excel in both damage dealing and tanking.",
             iconUrl = null,
-            baseStats = mapOf("hp" to 150, "mp" to 40, "str" to 16, "dex" to 10, "con" to 16, "int" to 8, "wis" to 10, "cha" to 12)
+            baseStatsList = listOf(
+                MapEntryDto("hp", 150), MapEntryDto("mp", 40), MapEntryDto("str", 16),
+                MapEntryDto("dex", 10), MapEntryDto("con", 16), MapEntryDto("int", 8),
+                MapEntryDto("wis", 10), MapEntryDto("cha", 12)
+            )
         ),
         ClassDto(
             id = 402,
@@ -238,7 +242,11 @@ object MockData {
             subClasses = listOf("Sorceress", "Archmage", "Wizard", "Mystic"),
             description = "Powerful magical damage dealer. Sorceresses can devastate groups of enemies with area spells.",
             iconUrl = null,
-            baseStats = mapOf("hp" to 80, "mp" to 80, "str" to 6, "dex" to 8, "con" to 8, "int" to 18, "wis" to 14, "cha" to 10)
+            baseStatsList = listOf(
+                MapEntryDto("hp", 80), MapEntryDto("mp", 80), MapEntryDto("str", 6),
+                MapEntryDto("dex", 8), MapEntryDto("con", 8), MapEntryDto("int", 18),
+                MapEntryDto("wis", 14), MapEntryDto("cha", 10)
+            )
         ),
         ClassDto(
             id = 403,
@@ -247,7 +255,11 @@ object MockData {
             subClasses = listOf("Duelist", "Grand Knight", "Dark Knight", "Thunder Knight"),
             description = "Swift and agile warrior. Duelists specialize in critical hits and fast attacks.",
             iconUrl = null,
-            baseStats = mapOf("hp" to 120, "mp" to 50, "str" to 14, "dex" to 16, "con" to 12, "int" to 8, "wis" to 10, "cha" to 14)
+            baseStatsList = listOf(
+                MapEntryDto("hp", 120), MapEntryDto("mp", 50), MapEntryDto("str", 14),
+                MapEntryDto("dex", 16), MapEntryDto("con", 12), MapEntryDto("int", 8),
+                MapEntryDto("wis", 10), MapEntryDto("cha", 14)
+            )
         ),
         ClassDto(
             id = 404,
@@ -256,7 +268,11 @@ object MockData {
             subClasses = listOf("Archmage", "Sorceress", "Wizard", "Mystic"),
             description = "Ultimate magical warrior. Combines physical and magical combat prowess.",
             iconUrl = null,
-            baseStats = mapOf("hp" to 100, "mp" to 70, "str" to 10, "dex" to 12, "con" to 10, "int" to 16, "wis" to 16, "cha" to 12)
+            baseStatsList = listOf(
+                MapEntryDto("hp", 100), MapEntryDto("mp", 70), MapEntryDto("str", 10),
+                MapEntryDto("dex", 12), MapEntryDto("con", 10), MapEntryDto("int", 16),
+                MapEntryDto("wis", 16), MapEntryDto("cha", 12)
+            )
         )
     )
 
