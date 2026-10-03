@@ -19,8 +19,9 @@ workmanager = "2.10.0"
 coroutines = "1.10.2"
 timber = "5.0.0"
 ksp = "2.3.6"
-ktor = "3.1.3"
-ktor-server = "3.1.3"
+logback = "1.5.18"
+ktor = "3.2.3"
+ktor-server = "3.2.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
