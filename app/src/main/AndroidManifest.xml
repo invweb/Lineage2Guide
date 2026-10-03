@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Lineage2Guide"
+        android:usesCleartextTraffic="true"
         tools:targetApi="37">
         <activity
             android:name=".MainActivity"

@@ -169,7 +169,7 @@ private fun itemToJson(item: com.zx_tole.lineage2_guide.server.dto.ItemDto): Str
     append("\"rarity\":${q(item.rarity)},")
     append("\"location\":${q(item.location)},")
     append("\"dropInfo\":${q(item.dropInfo)},")
-    append("\"stats\":${item.stats.joinToString(",", "[", "]") { "{\"key\":\"${it.key}\",\"value\":${it.value}}" }},")
+    append("\"stats\":{${item.stats.joinToString(",") { "\"${it.key}\":${it.value}" }}},")
     append("\"description\":${q(item.description)},")
     append("\"iconUrl\":${q(item.iconUrl)}")
     append("}")

@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import com.zx_tole.lineage2_guide.domain.model.*
 import com.zx_tole.lineage2_guide.ui.common.components.FilterBottomSheet
@@ -23,6 +22,7 @@ import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
 import com.zx_tole.lineage2_guide.ui.common.components.getRarityColor
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
+import androidx.compose.ui.graphics.Color
 import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
 import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
 import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
@@ -166,7 +166,8 @@ private fun ItemsSuccessScreen(
     if (showFilterSheet) {
         FilterBottomSheet(
             filterState = state.filterState,
-            onApply = { /* handled by state */ },
+            onTypeSelected = onTypeSelected,
+            onRaritySelected = onRaritySelected,
             onDismiss = { showFilterSheet = false }
         )
     }
@@ -204,13 +205,26 @@ fun ItemCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            AsyncImage(
-                model = item.iconUrl,
-                contentDescription = null,
+            Box(
                 modifier = Modifier
                     .size(48.dp)
-                    .background(rarityColor.copy(alpha = 0.2f), MaterialTheme.shapes.small)
-            )
+                    .background(rarityColor.copy(alpha = 0.2f), MaterialTheme.shapes.medium),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = when (item.type.name) {
+                        "WEAPON" -> Icons.Default.Star
+                        "ARMOR" -> Icons.Default.Shield
+                        "CONSUMABLE" -> Icons.Default.LocalPharmacy
+                        "SCROLL" -> Icons.Default.MenuBook
+                        "MATERIAL" -> Icons.Default.Inventory2
+                        else -> Icons.Default.Inventory2
+                    },
+                    contentDescription = null,
+                    tint = rarityColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.width(12.dp))
 

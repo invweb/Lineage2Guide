@@ -19,18 +19,16 @@ import com.zx_tole.lineage2_guide.domain.model.SortOption
 @Composable
 fun FilterBottomSheet(
     filterState: FilterState,
-    onApply: () -> Unit,
+    onTypeSelected: (String?) -> Unit,
+    onRaritySelected: (String?) -> Unit,
     onDismiss: () -> Unit
 ) {
-    var selectedClass by remember { mutableStateOf(filterState.selectedClasses.firstOrNull()) }
     var selectedType by remember { mutableStateOf(filterState.selectedTypes.firstOrNull()) }
     var selectedRarity by remember { mutableStateOf(filterState.selectedRarities.firstOrNull()) }
-    var levelStart by remember { mutableIntStateOf(filterState.levelRange?.start ?: 1) }
-    var levelEnd by remember { mutableIntStateOf(filterState.levelRange?.endInclusive ?: 99) }
 
-    val classes = listOf("Warrior", "Mage", "Archer", "Assassin", "Knight", "Warlord", "Sorceress", "Archmage")
-    val types = listOf("WEAPON", "ARMOR", "BOOTS", "GLOVES", "HELMET", "SHIELD", "POTION", "SCROLL", "MATERIAL", "JEWELRY")
-    val rarities = listOf("COMMON", "UNCOMMON", "RARE", "EPIC", "LEGENDARY", "DIVINE")
+    val classes = emptyList<String>()
+    val types = listOf("Weapon", "Armor", "Consumable")
+    val rarities = listOf("Common", "Uncommon", "Rare", "Epic", "Legendary")
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -53,20 +51,6 @@ fun FilterBottomSheet(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Class",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            FilterChips(
-                options = classes,
-                selectedOption = selectedClass,
-                onOptionSelected = { selectedClass = if (selectedClass == it) null else it }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
                 text = "Type",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
@@ -75,7 +59,10 @@ fun FilterBottomSheet(
             FilterChips(
                 options = types,
                 selectedOption = selectedType,
-                onOptionSelected = { selectedType = if (selectedType == it) null else it }
+                onOptionSelected = {
+                    selectedType = if (selectedType == it) null else it
+                    onTypeSelected(selectedType)
+                }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -89,62 +76,19 @@ fun FilterBottomSheet(
             FilterChips(
                 options = rarities,
                 selectedOption = selectedRarity,
-                onOptionSelected = { selectedRarity = if (selectedRarity == it) null else it }
+                onOptionSelected = {
+                    selectedRarity = if (selectedRarity == it) null else it
+                    onRaritySelected(selectedRarity)
+                }
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Level Range",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                OutlinedTextField(
-                    value = levelStart.toString(),
-                    onValueChange = { levelStart = it.toIntOrNull() ?: 1 },
-                    modifier = Modifier.weight(1f),
-                    label = { Text("Min") },
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = levelEnd.toString(),
-                    onValueChange = { levelEnd = it.toIntOrNull() ?: 99 },
-                    modifier = Modifier.weight(1f),
-                    label = { Text("Max") },
-                    singleLine = true
-                )
-            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Row(
+            Button(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                onClick = onDismiss
             ) {
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = onDismiss,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant
-                    )
-                ) {
-                    Text("Cancel")
-                }
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                        onApply()
-                        onDismiss()
-                    }
-                ) {
-                    Text("Apply")
-                }
+                Text("Close")
             }
 
             Spacer(modifier = Modifier.height(16.dp))
