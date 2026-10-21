@@ -14,10 +14,9 @@ kotlin {
             implementation(project(":shared"))
             
             // Compose Desktop
-            implementation("org.jetbrains.compose:compose-foundation:2025.1.0.5")
-            implementation("org.jetbrains.compose:compose-ui:2025.1.0.5")
-            implementation("org.jetbrains.compose.material3:material3:2025.1.0.5")
-            implementation("org.jetbrains.compose.material:material-icons-extended:2025.1.0.5")
+            implementation("org.jetbrains.compose.foundation:foundation:1.7.0")
+            implementation("org.jetbrains.compose.material:material-icons-extended:1.7.0")
+            implementation("org.jetbrains.compose.material3:material3:1.7.0")
             
             // Koin for Desktop
             implementation(libs.koin.core)
