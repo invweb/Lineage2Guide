@@ -9,9 +9,24 @@ kotlin {
         compileSdk = 37
     }
 
-    iosArm64()
-    iosSimulatorArm64()
-    iosX64()
+    iosArm64 {
+        binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
+    iosSimulatorArm64 {
+        binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
+    iosX64 {
+        binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
 
     jvm("desktop")
 
