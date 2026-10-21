@@ -17,4 +17,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Lineage2Guide"
-include(":app", ":shared", ":server")
+include(":app", ":shared", ":desktop", ":server")
