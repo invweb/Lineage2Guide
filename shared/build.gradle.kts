@@ -66,6 +66,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
                 implementation(libs.ktor.client.okhttp)
                 implementation(libs.koin.android)
+                implementation(libs.timber)
                 implementation("com.squareup.sqldelight:android-driver:1.5.3")
             }
         }
