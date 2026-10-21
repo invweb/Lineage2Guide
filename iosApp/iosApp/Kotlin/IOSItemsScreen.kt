@@ -1,0 +1,239 @@
+package com.zx_tole.lineage2_guide.ui.items
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
+import org.koin.androidx.compose.koinViewModel
+import com.zx_tole.lineage2_guide.domain.model.*
+import com.zx_tole.lineage2_guide.ui.common.components.RarityBadge
+import com.zx_tole.lineage2_guide.ui.common.components.SearchBar
+import com.zx_tole.lineage2_guide.ui.common.components.getRarityColor
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import com.zx_tole.lineage2_guide.ui.common.EmptyScreen
+import com.zx_tole.lineage2_guide.ui.common.ErrorScreen
+import com.zx_tole.lineage2_guide.ui.common.LoadingScreen
+import com.zx_tole.lineage2_guide.ui.common.SyncIndicator
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ItemsScreen(
+    viewModel: ItemsViewModel = koinViewModel(),
+    onNavigateToDetail: (Long) -> Unit = {},
+    onNavigateToClassDetail: (String) -> Unit = {}
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    when {
+        uiState.isLoading -> {
+            LoadingScreen(
+                message = "Loading items...",
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        uiState.error != null -> {
+            ErrorScreen(
+                message = uiState.error!!,
+                onRetry = viewModel::refresh,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        else -> {
+            ItemsSuccessScreen(
+                items = uiState.items,
+                isRefreshing = uiState.isRefreshing,
+                searchQuery = uiState.searchQuery,
+                onSearchQueryChanged = viewModel::onSearchQueryChanged,
+                onRefresh = viewModel::refresh,
+                onItemClicked = onNavigateToDetail,
+                onClassClicked = onNavigateToClassDetail
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ItemsSuccessScreen(
+    items: List<Item>,
+    isRefreshing: Boolean,
+    searchQuery: String,
+    onSearchQueryChanged: (String) -> Unit,
+    onRefresh: () -> Unit,
+    onItemClicked: (Long) -> Unit,
+    onClassClicked: (String) -> Unit
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Lineage 2",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                },
+                actions = {
+                    SyncIndicator(isSyncing = isRefreshing)
+                    IconButton(onClick = onRefresh) {
+                        Icon(
+                            Icons.Default.Refresh,
+                            contentDescription = "Refresh",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues)) {
+            SearchBar(
+                query = searchQuery,
+                onQueryChanged = onSearchQueryChanged,
+                onClear = { onSearchQueryChanged("") }
+            )
+
+            PullToRefreshBox(
+                isRefreshing = isRefreshing,
+                onRefresh = onRefresh,
+                modifier = Modifier.weight(1f)
+            ) {
+                LazyColumn(
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(items, key = { it.id }) { item ->
+                        ItemCard(
+                            item = item,
+                            onClick = { onItemClicked(item.id) },
+                            onClassClick = { onClassClicked(item.classRestriction ?: "") }
+                        )
+                    }
+
+                    if (items.isEmpty()) {
+                        item {
+                            EmptyScreen(
+                                message = if (searchQuery.isNotBlank()) "No items match your search" else "No items found",
+                                icon = Icons.Default.Inventory2
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ItemCard(
+    item: Item,
+    onClick: () -> Unit,
+    onClassClick: () -> Unit
+) {
+    val rarityColor = getRarityColor(item.rarity)
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+        ),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(4.dp)
+                    .height(48.dp)
+                    .background(rarityColor, MaterialTheme.shapes.small)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(rarityColor.copy(alpha = 0.2f), MaterialTheme.shapes.medium),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = when (item.type.name) {
+                        "WEAPON" -> Icons.Default.Star
+                        "ARMOR" -> Icons.Default.Shield
+                        "CONSUMABLE" -> Icons.Default.LocalPharmacy
+                        "SCROLL" -> Icons.Default.MenuBook
+                        "MATERIAL" -> Icons.Default.Inventory2
+                        else -> Icons.Default.Inventory2
+                    },
+                    contentDescription = null,
+                    tint = rarityColor,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = item.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = rarityColor,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = "Lv. ${item.level}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = "•",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Text(
+                        text = item.type.name,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                item.classRestriction?.let { restriction ->
+                    Text(
+                        text = restriction,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        textDecoration = TextDecoration.Underline,
+                        modifier = Modifier.clickable(onClick = onClassClick)
+                    )
+                }
+            }
+
+            RarityBadge(rarity = item.rarity)
+        }
+    }
+}

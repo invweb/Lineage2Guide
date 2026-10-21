@@ -4,9 +4,17 @@ This guide explains how to set up and run the Lineage2Guide iOS app with Kotlin 
 
 ## Prerequisites
 
-- Xcode 15+ 
+- Xcode 15+
 - Kotlin 2.2.10+
 - Android Studio (for Gradle wrapper)
+- CocoaPods (optional, for dependency management)
+
+## Current Status
+
+The iOS app is in early development. The current implementation includes:
+- Basic Xcode project structure
+- Koin DI initialization
+- Placeholder UI (ready for Compose Multiplatform integration)
 
 ## Setup Instructions
 
@@ -112,7 +120,8 @@ iosApp/
 ├── iosApp.xcodeproj/     # Xcode project
 ├── iosApp/               # Swift source files
 │   ├── iosApp.swift      # AppDelegate
-│   └── ComposeViewController.swift  # Compose Multiplatform host
+│   ├── ComposeViewController.swift  # Compose Multiplatform host
+│   └── IOSViewController.swift      # iOS-specific view controller
 └── Info.plist            # App configuration
 ```
 
@@ -122,3 +131,28 @@ iosApp/
 2. Create iOS-specific UI components if needed
 3. Configure push notifications (APNs)
 4. Set up App Store distribution
+
+## Compose Multiplatform Integration
+
+To fully integrate Compose Multiplatform with iOS:
+
+1. Add Compose Multiplatform dependencies to the shared module
+2. Configure the iOS build to use Compose compiler plugin
+3. Create iOS-specific entry points for Compose UI
+4. Link Compose framework in Xcode project
+
+Example Compose UI for iOS:
+```kotlin
+@Composable
+fun IOSApp() {
+    Lineage2Theme {
+        ItemsScreen(
+            onNavigateToDetail = { itemId ->
+                // Navigate to detail
+            }
+        )
+    }
+}
+```
+
+This will be integrated with the iOS app once Compose Multiplatform is fully configured.
