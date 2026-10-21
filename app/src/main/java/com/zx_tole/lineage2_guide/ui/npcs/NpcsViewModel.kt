@@ -3,7 +3,7 @@ package com.zx_tole.lineage2_guide.ui.npcs
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zx_tole.lineage2_guide.domain.model.Npc
-import com.zx_tole.lineage2_guide.domain.usecase.GetNpcsUseCase
+import com.zx_tole.lineage2_guide.domain.repository.NpcsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,7 +18,7 @@ data class NpcsUiState(
 )
 
 class NpcsViewModel(
-    private val getNpcsUseCase: GetNpcsUseCase
+    private val npcsRepository: NpcsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NpcsUiState(isLoading = true))
@@ -31,7 +31,7 @@ class NpcsViewModel(
     private fun loadNpcs() {
         viewModelScope.launch {
             try {
-                getNpcsUseCase.invoke()
+                npcsRepository.getNpcs(null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error loading npcs")
                         _uiState.update { it.copy(isLoading = false, error = e.message) }
@@ -57,7 +57,7 @@ class NpcsViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isRefreshing = true) }
             try {
-                getNpcsUseCase.invoke()
+                npcsRepository.getNpcs(null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error refreshing npcs")
                     }

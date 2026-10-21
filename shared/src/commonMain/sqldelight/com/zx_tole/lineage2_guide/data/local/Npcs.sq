@@ -1,0 +1,36 @@
+-- Npcs table
+CREATE TABLE npcs (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    location TEXT NOT NULL,
+    description TEXT,
+    relatedQuestIds TEXT NOT NULL,
+    iconUrl TEXT,
+    updatedAt INTEGER NOT NULL DEFAULT (CAST((strftime('%s', 'now')) AS INTEGER))
+);
+
+CREATE INDEX npcs_name_idx ON npcs(name);
+CREATE INDEX npcs_type_idx ON npcs(type);
+CREATE INDEX npcs_location_idx ON npcs(location);
+
+-- Queries
+upsertNpcs:
+INSERT OR REPLACE INTO npcs (id, name, type, location, description, relatedQuestIds, iconUrl, updatedAt)
+VALUES (:id, :name, :type, :location, :description, :relatedQuestIds, :iconUrl, :updatedAt);
+
+upsertNpc:
+INSERT OR REPLACE INTO npcs (id, name, type, location, description, relatedQuestIds, iconUrl, updatedAt)
+VALUES (:id, :name, :type, :location, :description, :relatedQuestIds, :iconUrl, :updatedAt);
+
+getNpcsByFilter:
+SELECT * FROM npcs
+WHERE (:type IS NULL OR type = :type)
+  AND (:location IS NULL OR location = :location)
+  AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%');
+
+getNpcById:
+SELECT * FROM npcs WHERE id = :id;
+
+clearNpcs:
+DELETE FROM npcs;

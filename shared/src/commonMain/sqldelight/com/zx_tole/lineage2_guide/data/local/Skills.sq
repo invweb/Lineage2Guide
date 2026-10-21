@@ -1,0 +1,45 @@
+-- Skills table
+CREATE TABLE skills (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    classRestriction TEXT NOT NULL,
+    level INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    description TEXT,
+    cooldown INTEGER,
+    iconUrl TEXT,
+    manaCost INTEGER,
+    range TEXT,
+    updatedAt INTEGER NOT NULL DEFAULT (CAST((strftime('%s', 'now')) AS INTEGER))
+);
+
+CREATE INDEX skills_classRestriction_idx ON skills(classRestriction);
+CREATE INDEX skills_level_idx ON skills(level);
+CREATE INDEX skills_type_idx ON skills(type);
+CREATE INDEX skills_classRestriction_type_idx ON skills(classRestriction, type);
+CREATE INDEX skills_classRestriction_level_idx ON skills(classRestriction, level);
+
+-- Queries
+upsertSkills:
+INSERT OR REPLACE INTO skills (id, name, classRestriction, level, type, description, cooldown, iconUrl, manaCost, range, updatedAt)
+VALUES (:id, :name, :classRestriction, :level, :type, :description, :cooldown, :iconUrl, :manaCost, :range, :updatedAt);
+
+upsertSkill:
+INSERT OR REPLACE INTO skills (id, name, classRestriction, level, type, description, cooldown, iconUrl, manaCost, range, updatedAt)
+VALUES (:id, :name, :classRestriction, :level, :type, :description, :cooldown, :iconUrl, :manaCost, :range, :updatedAt);
+
+getSkillsByFilter:
+SELECT * FROM skills
+WHERE (:classRestriction IS NULL OR classRestriction = :classRestriction)
+  AND (:type IS NULL OR type = :type)
+  AND (:minLevel IS NULL OR level >= :minLevel)
+  AND (:maxLevel IS NULL OR level <= :maxLevel)
+  AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%')
+ORDER BY level ASC
+LIMIT :pageSize OFFSET :offset;
+
+getSkillById:
+SELECT * FROM skills WHERE id = :id;
+
+clearSkills:
+DELETE FROM skills;

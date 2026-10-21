@@ -1,0 +1,60 @@
+-- Items table
+CREATE TABLE items (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    classRestriction TEXT,
+    level INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    rarity TEXT NOT NULL,
+    location TEXT,
+    dropInfo TEXT,
+    stats TEXT NOT NULL,
+    description TEXT,
+    iconUrl TEXT,
+    updatedAt INTEGER NOT NULL DEFAULT (CAST((strftime('%s', 'now')) AS INTEGER))
+);
+
+CREATE INDEX items_classRestriction_idx ON items(classRestriction);
+CREATE INDEX items_level_idx ON items(level);
+CREATE INDEX items_type_idx ON items(type);
+CREATE INDEX items_rarity_idx ON items(rarity);
+CREATE INDEX items_location_idx ON items(location);
+CREATE INDEX items_classRestriction_level_idx ON items(classRestriction, level);
+CREATE INDEX items_classRestriction_rarity_idx ON items(classRestriction, rarity);
+
+-- Queries
+upsertItems:
+INSERT OR REPLACE INTO items (id, name, classRestriction, level, type, rarity, location, dropInfo, stats, description, iconUrl, updatedAt)
+VALUES (:id, :name, :classRestriction, :level, :type, :rarity, :location, :dropInfo, :stats, :description, :iconUrl, :updatedAt);
+
+upsertItem:
+INSERT OR REPLACE INTO items (id, name, classRestriction, level, type, rarity, location, dropInfo, stats, description, iconUrl, updatedAt)
+VALUES (:id, :name, :classRestriction, :level, :type, :rarity, :location, :dropInfo, :stats, :description, :iconUrl, :updatedAt);
+
+getItemsByFilter:
+SELECT * FROM items
+WHERE (:classRestriction IS NULL OR classRestriction = :classRestriction)
+  AND (:minLevel IS NULL OR level >= :minLevel)
+  AND (:maxLevel IS NULL OR level <= :maxLevel)
+  AND (:type IS NULL OR type = :type)
+  AND (:rarity IS NULL OR rarity = :rarity)
+  AND (:location IS NULL OR location = :location)
+  AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%')
+ORDER BY level ASC, name ASC
+LIMIT :pageSize OFFSET :offset;
+
+getCountByFilter:
+SELECT COUNT(*) FROM items
+WHERE (:classRestriction IS NULL OR classRestriction = :classRestriction)
+  AND (:minLevel IS NULL OR level >= :minLevel)
+  AND (:maxLevel IS NULL OR level <= :maxLevel)
+  AND (:type IS NULL OR type = :type)
+  AND (:rarity IS NULL OR rarity = :rarity)
+  AND (:location IS NULL OR location = :location)
+  AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%');
+
+getItemById:
+SELECT * FROM items WHERE id = :id;
+
+clearItems:
+DELETE FROM items;

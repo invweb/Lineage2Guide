@@ -69,17 +69,6 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.koin.core)
 
-    // Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
-
-    // Retrofit + Moshi
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.moshi)
-    implementation(libs.moshi.kotlin)
-    implementation(libs.moshi.adapters)
-
     // Navigation
     implementation(libs.navigation.compose)
 
@@ -105,4 +94,7 @@ dependencies {
 
     // Splash Screen
     implementation(libs.androidx.core.splashscreen)
+
+    // Shared module (KMM)
+    implementation(project(":shared"))
 }

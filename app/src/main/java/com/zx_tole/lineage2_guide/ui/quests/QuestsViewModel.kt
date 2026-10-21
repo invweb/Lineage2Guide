@@ -3,7 +3,7 @@ package com.zx_tole.lineage2_guide.ui.quests
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zx_tole.lineage2_guide.domain.model.Quest
-import com.zx_tole.lineage2_guide.domain.usecase.GetQuestsUseCase
+import com.zx_tole.lineage2_guide.domain.repository.QuestsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,7 +18,7 @@ data class QuestsUiState(
 )
 
 class QuestsViewModel(
-    private val getQuestsUseCase: GetQuestsUseCase
+    private val questsRepository: QuestsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(QuestsUiState(isLoading = true))
@@ -31,7 +31,7 @@ class QuestsViewModel(
     private fun loadQuests() {
         viewModelScope.launch {
             try {
-                getQuestsUseCase.invoke()
+                questsRepository.getQuests(null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error loading quests")
                         _uiState.update { it.copy(isLoading = false, error = e.message) }
@@ -57,7 +57,7 @@ class QuestsViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isRefreshing = true) }
             try {
-                getQuestsUseCase.invoke()
+                questsRepository.getQuests(null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error refreshing quests")
                     }

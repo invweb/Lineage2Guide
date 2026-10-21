@@ -3,7 +3,7 @@ package com.zx_tole.lineage2_guide.ui.skills
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zx_tole.lineage2_guide.domain.model.Skill
-import com.zx_tole.lineage2_guide.domain.usecase.GetSkillsUseCase
+import com.zx_tole.lineage2_guide.domain.repository.SkillsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,7 +18,7 @@ data class SkillsUiState(
 )
 
 class SkillsViewModel(
-    private val getSkillsUseCase: GetSkillsUseCase
+    private val skillsRepository: SkillsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SkillsUiState(isLoading = true))
@@ -31,7 +31,7 @@ class SkillsViewModel(
     private fun loadSkills() {
         viewModelScope.launch {
             try {
-                getSkillsUseCase.invoke()
+                skillsRepository.getSkills(null, null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error loading skills")
                         _uiState.update { it.copy(isLoading = false, error = e.message) }
@@ -57,7 +57,7 @@ class SkillsViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isRefreshing = true) }
             try {
-                getSkillsUseCase.invoke()
+                skillsRepository.getSkills(null, null, null, null)
                     .catch { e ->
                         Timber.e(e, "Error refreshing skills")
                     }

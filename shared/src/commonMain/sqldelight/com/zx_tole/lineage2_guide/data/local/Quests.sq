@@ -1,0 +1,41 @@
+-- Quests table
+CREATE TABLE quests (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    npcId INTEGER,
+    startLevel INTEGER NOT NULL,
+    reward TEXT NOT NULL,
+    description TEXT,
+    type TEXT NOT NULL,
+    prerequisites TEXT,
+    progressStatus TEXT,
+    updatedAt INTEGER NOT NULL DEFAULT (CAST((strftime('%s', 'now')) AS INTEGER))
+);
+
+CREATE INDEX quests_type_idx ON quests(type);
+CREATE INDEX quests_startLevel_idx ON quests(startLevel);
+CREATE INDEX quests_npcId_idx ON quests(npcId);
+CREATE INDEX quests_type_startLevel_idx ON quests(type, startLevel);
+
+-- Queries
+upsertQuests:
+INSERT OR REPLACE INTO quests (id, name, npcId, startLevel, reward, description, type, prerequisites, progressStatus, updatedAt)
+VALUES (:id, :name, :npcId, :startLevel, :reward, :description, :type, :prerequisites, :progressStatus, :updatedAt);
+
+upsertQuest:
+INSERT OR REPLACE INTO quests (id, name, npcId, startLevel, reward, description, type, prerequisites, progressStatus, updatedAt)
+VALUES (:id, :name, :npcId, :startLevel, :reward, :description, :type, :prerequisites, :progressStatus, :updatedAt);
+
+getQuestsByFilter:
+SELECT * FROM quests
+WHERE (:type IS NULL OR type = :type)
+  AND (:startLevel IS NULL OR startLevel >= :startLevel)
+  AND (:npcId IS NULL OR npcId = :npcId)
+ORDER BY startLevel ASC
+LIMIT :pageSize OFFSET :offset;
+
+getQuestById:
+SELECT * FROM quests WHERE id = :id;
+
+clearQuests:
+DELETE FROM quests;

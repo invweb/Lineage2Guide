@@ -1,0 +1,34 @@
+-- Classes table
+CREATE TABLE classes (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    race TEXT NOT NULL,
+    subClasses TEXT NOT NULL,
+    description TEXT,
+    iconUrl TEXT,
+    baseStats TEXT NOT NULL,
+    updatedAt INTEGER NOT NULL DEFAULT (CAST((strftime('%s', 'now')) AS INTEGER))
+);
+
+CREATE INDEX classes_name_idx ON classes(name);
+CREATE INDEX classes_race_idx ON classes(race);
+
+-- Queries
+upsertClasses:
+INSERT OR REPLACE INTO classes (id, name, race, subClasses, description, iconUrl, baseStats, updatedAt)
+VALUES (:id, :name, :race, :subClasses, :description, :iconUrl, :baseStats, :updatedAt);
+
+upsertClass:
+INSERT OR REPLACE INTO classes (id, name, race, subClasses, description, iconUrl, baseStats, updatedAt)
+VALUES (:id, :name, :race, :subClasses, :description, :iconUrl, :baseStats, :updatedAt);
+
+getClassesByFilter:
+SELECT * FROM classes
+WHERE (:race IS NULL OR race = :race)
+  AND (:searchQuery IS NULL OR name LIKE '%' || :searchQuery || '%');
+
+getClassById:
+SELECT * FROM classes WHERE id = :id;
+
+clearClasses:
+DELETE FROM classes;

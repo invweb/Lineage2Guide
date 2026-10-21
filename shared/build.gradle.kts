@@ -1,0 +1,69 @@
+plugins {
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.kotlin.multiplatform.library)
+}
+
+kotlin {
+    android {
+        namespace = "com.zx_tole.lineage2_guide.shared"
+        compileSdk = 37
+    }
+
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+
+    jvm("desktop")
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+                implementation(libs.koin.core)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                implementation(libs.kotlinx.serialization.json)
+                implementation("com.squareup.sqldelight:runtime:1.5.3")
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.koin.android)
+                implementation("com.squareup.sqldelight:android-driver:1.5.3")
+            }
+        }
+        val iosArm64Main by getting {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+            }
+        }
+        val iosSimulatorArm64Main by getting {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+            }
+        }
+        val iosX64Main by getting {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+            }
+        }
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.cio)
+                implementation("com.squareup.sqldelight:jdbc-driver:1.5.3")
+            }
+        }
+    }
+}

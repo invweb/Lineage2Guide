@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zx_tole.lineage2_guide.domain.model.Item
 import com.zx_tole.lineage2_guide.domain.model.ItemsFilter
-import com.zx_tole.lineage2_guide.domain.usecase.GetItemsUseCase
+import com.zx_tole.lineage2_guide.domain.repository.ItemsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,7 +18,7 @@ data class ItemsUiState(
 )
 
 class ItemsViewModel(
-    private val getItemsUseCase: GetItemsUseCase
+    private val itemsRepository: ItemsRepository
 ) : ViewModel() {
 
     private val allItems = MutableStateFlow<List<Item>>(emptyList())
@@ -64,13 +64,9 @@ class ItemsViewModel(
     private fun loadItems() {
         viewModelScope.launch {
             try {
-                getItemsUseCase.invoke(ItemsFilter())
-                    .catch { e ->
-                        Timber.e(e, "Error loading items")
-                    }
-                    .collect { items ->
-                        allItems.value = items
-                    }
+                itemsRepository.getItems(ItemsFilter()).collect { items ->
+                    allItems.value = items
+                }
             } catch (e: Exception) {
                 Timber.e(e, "Error in items load")
             }
@@ -82,6 +78,9 @@ class ItemsViewModel(
     }
 
     fun refresh() {
-        loadItems()
+        viewModelScope.launch {
+            itemsRepository.refreshItems()
+            loadItems()
+        }
     }
 }

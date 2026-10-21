@@ -2,18 +2,11 @@ package com.zx_tole.lineage2_guide
 
 import android.app.Application
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import com.zx_tole.lineage2_guide.di.appModule
+import com.zx_tole.lineage2_guide.di.initKoin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
-import org.koin.core.logger.Level
 import timber.log.Timber
 
 class Lineage2App : Application() {
@@ -22,7 +15,8 @@ class Lineage2App : Application() {
         @Volatile
         private var INSTANCE: Lineage2App? = null
 
-        fun getInstance(): Lineage2App? = INSTANCE
+        val instance: Lineage2App
+            get() = INSTANCE ?: throw IllegalStateException("Lineage2App not initialized")
 
         fun Context.app(): Lineage2App = applicationContext as Lineage2App
     }
@@ -44,13 +38,7 @@ class Lineage2App : Application() {
 
         Log.d("Lineage2App", "Starting Koin with baseUrl: $baseUrl")
 
-        stopKoin()
-        
-        startKoin {
-            androidLogger(Level.DEBUG)
-            androidContext(this@Lineage2App)
-            modules(appModule(baseUrl))
-        }
+        initKoin(this, baseUrl)
 
         // Load initial data from server
         loadInitialData()
@@ -64,10 +52,6 @@ class Lineage2App : Application() {
                 
                 itemsRepo.refreshItems()
                 Log.d("Lineage2App", "Items refresh completed")
-                
-                Handler(Looper.getMainLooper()).post {
-                    Log.d("Lineage2App", "Initial data loading completed")
-                }
             } catch (e: Exception) {
                 Log.e("Lineage2App", "Failed to load initial data", e)
             }
