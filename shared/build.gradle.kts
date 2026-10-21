@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.kotlin.multiplatform.library)
+    alias(libs.plugins.kotlin.compose)
 }
 
 kotlin {
@@ -33,6 +34,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                // Compose Multiplatform
+                implementation("org.jetbrains.compose.foundation:foundation:1.7.0")
+                implementation("org.jetbrains.compose.material3:material3:1.7.0")
+                implementation("org.jetbrains.compose.material:material-icons-extended:1.7.0")
+                
                 // Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
