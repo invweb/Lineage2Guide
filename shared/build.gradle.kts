@@ -33,13 +33,20 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                // Coroutines
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
+                
+                // DI
                 implementation(libs.koin.core)
+                
+                // Network
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.kotlinx.serialization.json)
+                
+                // Database
                 implementation("com.squareup.sqldelight:runtime:1.5.3")
             }
         }
